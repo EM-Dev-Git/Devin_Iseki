@@ -1,0 +1,129 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+
+/****** Object:  Table [Ukeharai].[T_KEPPIN]    Script Date: 2018/05/21 13:46:17 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [Ukeharai].[T_KEPPIN](
+	[KAKUNIN] [varchar](1) NULL,
+	[LINE] [date] NULL,
+	[TEBAN] [numeric](2, 0) NULL,
+	[FUSOKU_TOGETU] [numeric](6, 0) NULL,
+	[FUSOKU_JIGETU] [numeric](6, 0) NULL,
+	[CYUZAN] [numeric](8, 0) NULL,
+	[NOKI] [date] NULL,
+	[NOHINSAKI] [varchar](1) NOT NULL,
+	[NYUKABI] [date] NULL,
+	[TORI_CD] [varchar](8) NOT NULL,
+	[TORI_NAME] [varchar](42) NULL,
+	[BUHIN_CD] [varchar](12) NOT NULL,
+	[BUHIN_NAME] [varchar](20) NULL,
+	[TANA_NO1] [varchar](8) NULL,
+	[TANA_NO2] [varchar](8) NULL,
+	[TANA_NO3] [varchar](8) NULL,
+	[TORIHIN_NO] [varchar](24) NULL,
+	[KIKAKU] [varchar](24) NULL,
+	[IKISAKI_CD] [varchar](12) NULL,
+	[UKESU] [numeric](7, 0) NULL,
+	[HARASU] [numeric](7, 0) NULL,
+	[ZAIKO] [numeric](7, 0) NULL,
+	[SISAN_1ST] [numeric](7, 0) NULL,
+	[KABUSOKU_1ST] [numeric](7, 0) NULL,
+	[SISAN_2ND] [numeric](7, 0) NULL,
+	[KABUSOKU_2ND] [numeric](8, 0) NULL,
+	[SISAN_3RD] [numeric](7, 0) NULL,
+	[KABUSOKU_3RD] [numeric](8, 0) NULL,
+	[CYUZAN_SAITAN] [date] NULL,
+	[CYUZAN_SU] [numeric](7, 0) NULL,
+	[CYUZAN_ORDER] [varchar](12) NULL,
+	[CYUZAN_TOTAL] [numeric](9, 0) NULL,
+	[SINDO_1DAY] [numeric](4, 0) NULL,
+	[SINDO_2DAY] [numeric](4, 0) NULL,
+	[SINDO_3DAY] [numeric](4, 0) NULL,
+	[SINDO_4DAY] [numeric](4, 0) NULL,
+	[SINDO_5DAY] [numeric](4, 0) NULL,
+	[SINDO_6DAY] [numeric](4, 0) NULL,
+	[SINDO_7DAY] [numeric](4, 0) NULL,
+	[SINDO_8DAY] [numeric](4, 0) NULL,
+	[SINDO_9DAY] [numeric](4, 0) NULL,
+	[SINDO_10DAY] [numeric](4, 0) NULL,
+	[SINDO_11DAY] [numeric](4, 0) NULL,
+	[SINDO_12DAY] [numeric](4, 0) NULL,
+	[SINDO_13DAY] [numeric](4, 0) NULL,
+	[SINDO_14DAY] [numeric](4, 0) NULL,
+	[SINDO_15DAY] [numeric](4, 0) NULL,
+	[SINDO_16DAY] [numeric](4, 0) NULL,
+	[SINDO_17DAY] [numeric](4, 0) NULL,
+	[SINDO_18DAY] [numeric](4, 0) NULL,
+	[SINDO_19DAY] [numeric](4, 0) NULL,
+	[SINDO_20DAY] [numeric](4, 0) NULL,
+	[SINDO_21DAY] [numeric](4, 0) NULL,
+	[SINDO_22DAY] [numeric](4, 0) NULL,
+	[SINDO_23DAY] [numeric](4, 0) NULL,
+	[SINDO_24DAY] [numeric](4, 0) NULL,
+	[SINDO_25DAY] [numeric](4, 0) NULL,
+	[SINDO_26DAY] [numeric](4, 0) NULL,
+	[SINDO_27DAY] [numeric](4, 0) NULL,
+	[SINDO_28DAY] [numeric](4, 0) NULL,
+	[SINDO_29DAY] [numeric](4, 0) NULL,
+	[SINDO_30DAY] [numeric](4, 0) NULL,
+	[SINDO_31DAY] [numeric](4, 0) NULL,
+	[SINDO_TOTAL] [numeric](6, 0) NULL,
+	[KABUSOKU_1DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_2DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_3DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_4DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_5DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_6DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_7DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_8DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_9DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_10DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_11DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_12DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_13DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_14DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_15DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_16DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_17DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_18DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_19DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_20DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_21DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_22DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_23DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_24DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_25DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_26DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_27DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_28DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_29DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_30DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_31DAY] [numeric](7, 0) NULL,
+	[KABUSOKU_TOTAL] [numeric](9, 0) NULL,
+	[INSERT_USER] [varchar](50) NULL,
+	[INSERT_DTM] [datetime] NULL,
+	[INSERT_FUNCTION] [varchar](50) NULL,
+	[UPDATE_USER] [varchar](50) NULL,
+	[UPDATE_DTM] [datetime] NULL,
+	[UPDATE_FUNCTION] [varchar](50) NULL,
+ CONSTRAINT [PK_T_KEPPIN] PRIMARY KEY CLUSTERED 
+(
+	[NOHINSAKI] ASC,
+	[TORI_CD] ASC,
+	[BUHIN_CD] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+

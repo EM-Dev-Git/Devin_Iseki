@@ -1,0 +1,43 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+
+/****** Object:  Table [Ukeharai].[T_CYUZAN]    Script Date: 2018/05/24 10:27:23 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [Ukeharai].[T_CYUZAN](
+	[NOHINSAKI] [varchar](1) NOT NULL,
+	[BUHIN_CD] [varchar](12) NOT NULL,
+	[SAISINHENSEN] [varchar](1) NULL,
+	[PROCESS] [varchar](3) NOT NULL,
+	[BUHIN_NAME] [varchar](20) NULL,
+	[HACYU_YYYYMMDD] [date] NOT NULL,
+	[NOKI_YYYYMMDD] [date] NULL,
+	[HACYU_NO] [numeric](6, 0) NULL,
+	[HACYU_FUGO] [varchar](1) NULL,
+	[HACYU_SU] [numeric](7, 0) NULL,
+	[NONYU_FUGO] [varchar](1) NULL,
+	[NONYU_SU] [numeric](7, 0) NULL,
+	[CYUZAN_FUGO] [varchar](1) NULL,
+	[CYUZAN_SU] [numeric](7, 0) NULL,
+	[TORI_CD] [varchar](8) NOT NULL,
+	[ORDER_CD] [varchar](12) NULL,
+	[INSERT_USER] [varchar](50) NULL,
+	[INSERT_DTM] [datetime] NULL,
+	[INSERT_FUNCTION] [varchar](50) NULL,
+	[UPDATE_USER] [varchar](50) NULL,
+	[UPDATE_DTM] [datetime] NULL,
+	[UPDATE_FUNCTION] [varchar](50) NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+

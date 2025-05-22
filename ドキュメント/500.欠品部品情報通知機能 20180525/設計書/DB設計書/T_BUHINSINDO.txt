@@ -1,0 +1,105 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+
+/****** Object:  Table [Ukeharai].[T_BUHINSINDO]    Script Date: 2018/05/21 13:45:38 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [Ukeharai].[T_BUHINSINDO](
+	[NOHINSAKI] [varchar](1) NOT NULL,
+	[TORI_CD] [varchar](8) NOT NULL,
+	[BUHIN_CD] [varchar](12) NOT NULL,
+	[PROCESS] [varchar](3) NOT NULL,
+	[BUHIN_NAME] [varchar](20) NULL,
+	[SIGN] [varchar](1) NULL,
+	[PRE_KEI] [numeric](4, 0) NULL,
+	[1DAY_SIGN] [varchar](1) NULL,
+	[1DAY_NUMBER] [numeric](4, 0) NULL,
+	[2DAY_SIGN] [varchar](1) NULL,
+	[2DAY_NUMBER] [numeric](4, 0) NULL,
+	[3DAY_SIGN] [varchar](1) NULL,
+	[3DAY_NUMBER] [numeric](4, 0) NULL,
+	[4DAY_SIGN] [varchar](1) NULL,
+	[4DAY_NUMBER] [numeric](4, 0) NULL,
+	[5DAY_SIGN] [varchar](1) NULL,
+	[5DAY_NUMBER] [numeric](4, 0) NULL,
+	[6DAY_SIGN] [varchar](1) NULL,
+	[6DAY_NUMBER] [numeric](4, 0) NULL,
+	[7DAY_SIGN] [varchar](1) NULL,
+	[7DAY_NUMBER] [numeric](4, 0) NULL,
+	[8DAY_SIGN] [varchar](1) NULL,
+	[8DAY_NUMBER] [numeric](4, 0) NULL,
+	[9DAY_SIGN] [varchar](1) NULL,
+	[9DAY_NUMBER] [numeric](4, 0) NULL,
+	[10DAY_SIGN] [varchar](1) NULL,
+	[10DAY_NUMBER] [numeric](4, 0) NULL,
+	[11DAY_SIGN] [varchar](1) NULL,
+	[11DAY_NUMBER] [numeric](4, 0) NULL,
+	[12DAY_SIGN] [varchar](1) NULL,
+	[12DAY_NUMBER] [numeric](4, 0) NULL,
+	[13DAY_SIGN] [varchar](1) NULL,
+	[13DAY_NUMBER] [numeric](4, 0) NULL,
+	[14DAY_SIGN] [varchar](1) NULL,
+	[14DAY_NUMBER] [numeric](4, 0) NULL,
+	[15DAY_SIGN] [varchar](1) NULL,
+	[15DAY_NUMBER] [numeric](4, 0) NULL,
+	[16DAY_SIGN] [varchar](1) NULL,
+	[16DAY_NUMBER] [numeric](4, 0) NULL,
+	[17DAY_SIGN] [varchar](1) NULL,
+	[17DAY_NUMBER] [numeric](4, 0) NULL,
+	[18DAY_SIGN] [varchar](1) NULL,
+	[18DAY_NUMBER] [numeric](4, 0) NULL,
+	[19DAY_SIGN] [varchar](1) NULL,
+	[19DAY_NUMBER] [numeric](4, 0) NULL,
+	[20DAY_SIGN] [varchar](1) NULL,
+	[20DAY_NUMBER] [numeric](4, 0) NULL,
+	[21DAY_SIGN] [varchar](1) NULL,
+	[21DAY_NUMBER] [numeric](4, 0) NULL,
+	[22DAY_SIGN] [varchar](1) NULL,
+	[22DAY_NUMBER] [numeric](4, 0) NULL,
+	[23DAY_SIGN] [varchar](1) NULL,
+	[23DAY_NUMBER] [numeric](4, 0) NULL,
+	[24DAY_SIGN] [varchar](1) NULL,
+	[24DAY_NUMBER] [numeric](4, 0) NULL,
+	[25DAY_SIGN] [varchar](1) NULL,
+	[25DAY_NUMBER] [numeric](4, 0) NULL,
+	[26DAY_SIGN] [varchar](1) NULL,
+	[26DAY_NUMBER] [numeric](4, 0) NULL,
+	[27DAY_SIGN] [varchar](1) NULL,
+	[27DAY_NUMBER] [numeric](4, 0) NULL,
+	[28DAY_SIGN] [varchar](1) NULL,
+	[28DAY_NUMBER] [numeric](4, 0) NULL,
+	[29DAY_SIGN] [varchar](1) NULL,
+	[29DAY_NUMBER] [numeric](4, 0) NULL,
+	[30DAY_SIGN] [varchar](1) NULL,
+	[30DAY_NUMBER] [numeric](4, 0) NULL,
+	[31DAY_SIGN] [varchar](1) NULL,
+	[31DAY_NUMBER] [numeric](4, 0) NULL,
+	[YYYYMM] [varchar](6) NOT NULL,
+	[INSERT_USER] [varchar](50) NULL,
+	[INSERT_DTM] [datetime] NULL,
+	[INSERT_FUNCTION] [varchar](50) NULL,
+	[UPDATE_USER] [varchar](50) NULL,
+	[UPDATE_DTM] [datetime] NULL,
+	[UPDATE_FUNCTION] [varchar](50) NULL,
+ CONSTRAINT [PK_T_BUHINSINDO] PRIMARY KEY CLUSTERED 
+(
+	[NOHINSAKI] ASC,
+	[TORI_CD] ASC,
+	[BUHIN_CD] ASC,
+	[PROCESS] ASC,
+	[YYYYMM] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+

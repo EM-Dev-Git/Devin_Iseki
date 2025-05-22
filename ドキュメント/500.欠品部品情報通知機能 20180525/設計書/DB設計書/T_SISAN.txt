@@ -1,0 +1,76 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+
+/****** Object:  Table [Ukeharai].[T_SISAN]    Script Date: 2018/05/21 13:46:38 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [Ukeharai].[T_SISAN](
+	[NOHINSAKI] [varchar](1) NOT NULL,
+	[KBN] [varchar](1) NULL,
+	[TORI_CD] [varchar](8) NOT NULL,
+	[BUHIN_CD] [varchar](12) NOT NULL,
+	[PROCESS] [varchar](3) NOT NULL,
+	[BUHIN_NAME] [varchar](20) NULL,
+	[TANI] [varchar](2) NULL,
+	[TORI_SHORT] [varchar](7) NULL,
+	[YYYYMM] [varchar](6) NOT NULL,
+	[1MONTH_YYYYMM] [varchar](6) NULL,
+	[1MONTH_NUMBER] [numeric](7, 0) NULL,
+	[2MONTH_YYYYMM] [varchar](6) NULL,
+	[2MONTH_NUMBER] [numeric](7, 0) NULL,
+	[3MONTH_YYYYMM] [varchar](6) NULL,
+	[3MONTH_NUMBER] [numeric](7, 0) NULL,
+	[4MONTH_YYYYMM] [varchar](6) NULL,
+	[4MONTH_NUMBER] [numeric](7, 0) NULL,
+	[5MONTH_YYYYMM] [varchar](6) NULL,
+	[5MONTH_NUMBER] [numeric](7, 0) NULL,
+	[6MONTH_YYYYMM] [varchar](6) NULL,
+	[6MONTH_NUMBER] [numeric](7, 0) NULL,
+	[7MONTH_YYYYMM] [varchar](6) NULL,
+	[7MONTH_NUMBER] [numeric](7, 0) NULL,
+	[8MONTH_YYYYMM] [varchar](6) NULL,
+	[8MONTH_NUMBER] [numeric](7, 0) NULL,
+	[9MONTH_YYYYMM] [varchar](6) NULL,
+	[9MONTH_NUMBER] [numeric](7, 0) NULL,
+	[10MONTH_YYYYMM] [varchar](6) NULL,
+	[10MONTH_NUMBER] [numeric](7, 0) NULL,
+	[11MONTH_YYYYMM] [varchar](6) NULL,
+	[11MONTH_NUMBER] [numeric](7, 0) NULL,
+	[12MONTH_YYYYMM] [varchar](6) NULL,
+	[12MONTH_NUMBER] [numeric](7, 0) NULL,
+	[FACTORY] [numeric](7, 0) NULL,
+	[0000D] [numeric](7, 0) NULL,
+	[KARIUKE] [numeric](7, 0) NULL,
+	[ZENGETU] [numeric](7, 0) NULL,
+	[TOTAL] [numeric](7, 0) NULL,
+	[CYUZAN] [numeric](7, 0) NULL,
+	[NAIJI] [numeric](7, 0) NULL,
+	[PROCESS_DAY] [varchar](8) NULL,
+	[INSERT_USER] [varchar](50) NULL,
+	[INSERT_DTM] [datetime] NULL,
+	[INSERT_FUNCTION] [varchar](50) NULL,
+	[UPDATE_USER] [varchar](50) NULL,
+	[UPDATE_DTM] [datetime] NULL,
+	[UPDATE_FUNCTION] [varchar](50) NULL,
+ CONSTRAINT [PK_T_SISAN] PRIMARY KEY CLUSTERED 
+(
+	[NOHINSAKI] ASC,
+	[TORI_CD] ASC,
+	[BUHIN_CD] ASC,
+	[PROCESS] ASC,
+	[YYYYMM] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
