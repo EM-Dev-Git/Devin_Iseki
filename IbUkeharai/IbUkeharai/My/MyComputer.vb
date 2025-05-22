@@ -1,0 +1,20 @@
+﻿Imports System
+Imports System.CodeDom.Compiler
+Imports System.ComponentModel
+Imports System.Diagnostics
+Imports Microsoft.VisualBasic.Devices
+
+Namespace IbUkeharai.My
+
+	<GeneratedCode("MyTemplate", "10.0.0.0")>
+	<EditorBrowsable(EditorBrowsableState.Never)>
+	Friend Class MyComputer
+		Inherits Computer
+
+
+		<DebuggerHidden()>
+		<EditorBrowsable(EditorBrowsableState.Never)>
+		Public Sub New()
+		End Sub
+	End Class
+End Namespace

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <Compile Update="BaseMenuForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BatchHaraiDataWritForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BatchHaraiHostDataWritForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BatchJissekiForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BatchMenuForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BatchMonthlyDataForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BatchUkeireDataWritForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BatchYearlyDataForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateDataBuhinMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateDataGekkanUkeharaiDayDeployForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateDataMenuForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateDataNounyuMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateDataTorihikiMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateDataTorihikiUkeharaiDailyForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateDataTorihikiUkeharaiMonthlyForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="frmLogo.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InquiryKeppinBuhinForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InquiryMenuForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InquiryUkeharaiZissekiForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="InquiryUkeharaiZissekiReportForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ListBuhinForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ListUkeharaiConfirmationLetterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ListUkeharaiReporForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ListZaikoDailyAndMonthlyForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OutPutSeikyuForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OutPutSeikyuFormReportViewSeikyu.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OutPutSeikyuFormReportViewUchiwake.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OutPutZissekiTableForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OutPutZissekiTableReportForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterBaseForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterBuhinMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterHaraiZIssekiForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterJosuMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterMenuForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterNounyuMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterSeikyuMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterTankaMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterTorihikiMasterForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RegisterUkeireZissekiForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SeikyuMenuForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="TopForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UcDataGridView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="UcSelectGridView.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Util\CalendarEditingControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Util\CmpComboBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Util\CmpSelectGridView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Util\CustomDataGridView.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Util\DataGridViewMaskedTextBoxEditingControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Util\KeppinComboBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Util\UcCalendar.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="VersionForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "dgSpecHash": "GGK2kWibhRhcLjkCf2UcSKuVSPghUwcv/3k4eZFSe081uIT4jlORrJUbbCKfLVrmKVMJdkr7B+/ymSv0ZTHrNA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\IbUkeharai\\IbUkeharai.vbproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\EM-B-H0083\\.nuget\\packages\\microsoft.reportingservices.reportviewercontrol.winforms\\150.1537.0\\microsoft.reportingservices.reportviewercontrol.winforms.150.1537.0.nupkg.sha512",
+    "C:\\Users\\EM-B-H0083\\.nuget\\packages\\microsoft.sqlserver.types\\14.0.314.76\\microsoft.sqlserver.types.14.0.314.76.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Microsoft.ReportingServices.ReportViewerControl.Winforms 150.1537.0 は Microsoft.SqlServer.Types (>= 14.0.0) に依存していますが、Microsoft.SqlServer.Types 14.0.0 が見つかりませんでした。Microsoft.SqlServer.Types 14.0.314.76 の概算の最適な一致が解決されました。",
+      "libraryId": "Microsoft.SqlServer.Types",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.6"
+      ]
+    }
+  ]
+}

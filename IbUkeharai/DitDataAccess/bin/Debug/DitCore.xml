@@ -1,0 +1,1025 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+DitCore
+</name>
+</assembly>
+<members>
+<member name="T:DitCore.My.Resources.Resources">
+<summary>
+  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
+</summary>
+</member>
+<member name="P:DitCore.My.Resources.Resources.ResourceManager">
+<summary>
+  このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
+</summary>
+</member>
+<member name="P:DitCore.My.Resources.Resources.Culture">
+<summary>
+  厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+  現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+</summary>
+</member>
+<member name="T:DitCore.Classes.basXmlCrypt">
+ <summary>
+ XML暗号化・複合化サンプル
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Classes.basXmlCrypt.Main">
+ <summary>
+ メイン
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Classes.basXmlCrypt.Encrypt(System.Xml.XmlDocument,System.String,System.Security.Cryptography.SymmetricAlgorithm)">
+ <summary>
+ 暗号化
+ </summary>
+ <param name="Doc">XMLドキュメント</param>
+ <param name="ElementName">暗号化するエレメント名</param>
+ <param name="Key">暗号化キー</param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Classes.basXmlCrypt.Decrypt(System.Xml.XmlDocument,System.Security.Cryptography.SymmetricAlgorithm)">
+ <summary>
+ 複合化されたXMLファイルを複合化します。
+ </summary>
+ <param name="Doc">XMLドキュメント</param>
+ <param name="Alg">複合化キー</param>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Classes.ConstantsDigit.DenNo">
+ <summary>伝票番号桁数</summary>
+</member>
+<member name="F:DitCore.Classes.ConstantsDigit.Kamoku">
+ <summary>科目コード桁数</summary>
+</member>
+<member name="F:DitCore.Classes.ConstantsDigit.Segment">
+ <summary>セグメントコード桁数</summary>
+</member>
+<member name="F:DitCore.Classes.ConstantsDigit.SegmentParent">
+ <summary>セグメント親店コード桁数</summary>
+</member>
+<member name="F:DitCore.Classes.ConstantsDigit.Torihikisaki">
+ <summary>取引先コード桁数</summary>
+</member>
+<member name="F:DitCore.Classes.ConstantsDigit.TorihikisakiParent">
+ <summary>取引先親店コード桁数</summary>
+</member>
+<member name="F:DitCore.Classes.ConstantsDigit.Bumon">
+ <summary>部門コード桁数</summary>
+</member>
+<member name="F:DitCore.Classes.enmTaisyakuKubun.Karikata">
+ <summary>借方区分</summary>
+</member>
+<member name="F:DitCore.Classes.enmTaisyakuKubun.Kasikata">
+ <summary>貸方区分</summary>
+</member>
+<member name="T:DitCore.Classes.OutputLog">
+------------------------------------------------------------------------
+ <summary>
+ ログ出力クラス
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="F:DitCore.Classes.OutputLog.LOG_COUNT">
+ <summary>ログファイルの履歴管理数</summary>
+</member>
+<member name="F:DitCore.Classes.OutputLog._sLogFolder">
+ <summary>ログファイル格納フォルダ</summary>
+</member>
+<member name="F:DitCore.Classes.OutputLog._sLogFileName">
+ <summary>ログファイル(拡張子なし)</summary>
+</member>
+<member name="F:DitCore.Classes.OutputLog._sLogFileExtension">
+ <summary>ログファイル(拡張子)</summary>
+</member>
+<member name="F:DitCore.Classes.OutputLog._sLogFilePath">
+ <summary>ログファイルパス</summary>
+</member>
+<member name="F:DitCore.Classes.OutputLog._blnDebugMode">
+ <summary>デバッグモード</summary>
+</member>
+<member name="M:DitCore.Classes.OutputLog.#cctor">
+--------------------------------------------------------------------
+ <summary>
+ クラスコンストラクタ</summary>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.OutputLog.Initialize(System.Boolean,System.String)">
+--------------------------------------------------------------------
+ <summary>
+ 初期化
+ </summary>
+ <param name="sLogFilePath">ログ出力先ファイル</param>
+ <returns>True= 成功, False= 失敗</returns>
+ <remarks>
+ 環境情報取得時に発生したエラーは無視(別途確認作業にてチェック)
+ </remarks>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.OutputLog.Write(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ ログ書込み
+ </summary>
+ <remarks>ログファイルに情報を書込み。</remarks>
+ <param name="sMessage">書き込む情報を格納したメッセージ</param>
+ <returns>True:成功、False:失敗</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.OutputLog.WriteLine(System.String,System.String[])">
+--------------------------------------------------------------------
+ <summary>
+ ログ書込み
+ </summary>
+ <param name="sMessage">書き込む情報を格納したメッセージ</param>
+ <returns>True:成功、False:失敗</returns>
+ <remarks>ログファイルに情報を書込み</remarks>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.OutputLog.WriteLine(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ ログ書込み
+ </summary>
+ <param name="sMessage">書き込む情報を格納したメッセージ</param>
+ <returns>True:成功、False:失敗</returns>
+ <remarks>ログファイルに情報を書込み</remarks>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.OutputLog.BackupOldLogFile">
+------------------------------------------------------------------------
+ <summary>
+ ログファイル退避処理
+ </summary>
+ <returns>True= 成功, False= 失敗</returns>
+ <remarks>
+ ファイルの更新日が処理日より以前の場合、ファイルを退避
+ </remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.OutputLog.GetMethodName">
+------------------------------------------------------------------------
+ <summary>
+ メソッド名を取得
+ </summary>
+ <returns>メソッド名</returns>
+ <remarks>呼び出し元のメソッド名を取得。(現在使用予定なし)</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="T:DitCore.Classes.VBStrings">
+ -----------------------------------------------------------------------------
+ <summary>
+     Microsoft.VisualBasic.Strings をカバーした静的クラスです。
+ </summary>
+ -----------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.VBStrings.Left(System.String,System.Int32)">
+ -----------------------------------------------------------------------------------
+ <summary>
+     文字列の左端から指定された文字数分の文字列を返します。</summary>
+ <param name="stTarget">
+     取り出す元になる文字列。</param>
+ <param name="iLength">
+     取り出す文字数。</param>
+ <returns>
+     左端から指定された文字数分の文字列。
+     文字数を超えた場合は、文字列全体が返されます。</returns>
+ -----------------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.VBStrings.Mid(System.String,System.Int32)">
+ -----------------------------------------------------------------------------------
+ <summary>
+     文字列の指定された位置以降のすべての文字列を返します。</summary>
+ <param name="stTarget">
+     取り出す元になる文字列。</param>
+ <param name="iStart">
+     取り出しを開始する位置。</param>
+ <returns>
+     指定された位置以降のすべての文字列。</returns>
+ -----------------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.VBStrings.Mid(System.String,System.Int32,System.Int32)">
+ -----------------------------------------------------------------------------------
+ <summary>
+     文字列の指定された位置から、指定された文字数分の文字列を返します。</summary>
+ <param name="stTarget">
+     取り出す元になる文字列。</param>
+ <param name="iStart">
+     取り出しを開始する位置。</param>
+ <param name="iLength">
+     取り出す文字数。</param>
+ <returns>
+     指定された位置から指定された文字数分の文字列。
+     文字数を超えた場合は、指定された位置からすべての文字列が返されます。</returns>
+ -----------------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.VBStrings.Right(System.String,System.Int32)">
+ -----------------------------------------------------------------------------------
+ <summary>
+     文字列の右端から指定された文字数分の文字列を返します。</summary>
+ <param name="stTarget">
+     取り出す元になる文字列。</param>
+ <param name="iLength">
+     取り出す文字数。</param>
+ <returns>
+     右端から指定された文字数分の文字列。
+     文字数を超えた場合は、文字列全体が返されます。</returns>
+ -----------------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.VBStrings.Str(System.Single)">
+ -----------------------------------------------------------------------------------
+ <summary>
+     指定された数値を文字列(String)に変換します。</summary>
+ <param name="stTarget">
+     変換元になる数値。</param>
+ <returns>
+     先頭に符号用の半角スペースを付加した文字列が返されます。</returns>
+ -----------------------------------------------------------------------------------
+</member>
+<member name="T:DitCore.Classes.Win32API">
+------------------------------------------------------------------------
+ <summary>
+ Win32APIクラス
+ </summary>
+ <remarks>Shared(共有)にてメソッド、プロパティを公開。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Classes.Win32API.ShowPrevProcess">
+ ------------------------------------------------------------------------------------
+ <summary>
+ 同名のプロセスが起動中の場合、メイン ウィンドウをアクティブ設定
+ </summary>
+ <returns>True= 既に起動中, False= それ以外</returns>
+ ------------------------------------------------------------------------------------
+</member>
+<member name="T:DitCore.Classes.xRoot">
+ <summary>
+ XMLファイルに保存するオブジェクトのためのクラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:DitCore.Classes.DataBaseInfo">
+ <summary>
+ データベース情報クラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:DitCore.Classes.PathInfo">
+ <summary>
+ バス情報クラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:DitCore.Classes.XmlConfigControl">
+ <summary>
+ 設定ファイルのクラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Classes.XmlConfigControl.LOGFILENAME">
+ <summary>
+ ログファイル名
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Classes.XmlConfigControl.SERVERNAME">
+ <summary>
+ サーバー名称
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Classes.XmlConfigControl.DATABASENAME">
+ <summary>
+ データベース名称
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Classes.XmlConfigControl.PASSWORD">
+ <summary>
+ パスワード
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Classes.XmlConfigControl.CONFIDFILENAME">
+ <summary>
+ 設定ファイル名
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Classes.XmlConfigControl._xmlConfData">
+ <summary>
+ 設定ファイル用格納データ
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Classes.XmlConfigControl.#ctor">
+ <summary>
+ コンストラクタ
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Classes.XmlConfigControl.getConfig">
+ <summary>
+ 設定ファイル(XML)をオブジェクトに取り込む
+ 設定ファイルが存在しない場合、デフォルト値で作成する。
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Classes.XmlConfigControl.GetNendo(System.Object)">
+ <summary>
+ 年度を取得する
+ </summary>
+ <param name="ADate">日付</param>
+ <returns>年度</returns>
+ <remarks></remarks>
+</member>
+<member name="T:DitCore.EncryptDecryptControl">
+ <summary>
+ 文字列の暗号化・複合化クラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.EncryptDecryptControl.EncryptString(System.String,System.String)">
+ <summary>
+ 文字列を暗号化する
+ </summary>
+ <param name="sourceString">暗号化する文字列</param>
+ <param name="password">暗号化に使用するパスワード</param>
+ <returns>暗号化された文字列</returns>
+</member>
+<member name="M:DitCore.EncryptDecryptControl.DecryptString(System.String,System.String)">
+ <summary>
+ 暗号化された文字列を復号化する
+ </summary>
+ <param name="sourceString">暗号化された文字列</param>
+ <param name="password">暗号化に使用したパスワード</param>
+ <returns>復号化された文字列</returns>
+</member>
+<member name="M:DitCore.EncryptDecryptControl.GenerateKeyFromPassword(System.String,System.Int32,System.Byte[]@,System.Int32,System.Byte[]@)">
+ <summary>
+ パスワードから共有キーと初期化ベクタを生成する
+ </summary>
+ <param name="password">基になるパスワード</param>
+ <param name="keySize">共有キーのサイズ（ビット）</param>
+ <param name="key">作成された共有キー</param>
+ <param name="blockSize">初期化ベクタのサイズ（ビット）</param>
+ <param name="iv">作成された初期化ベクタ</param>
+</member>
+<member name="T:DitCore.Controls.CclDataGridView">
+ <summary>
+ DataGridView 拡張クラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._columnHeaderLine">
+ <summary>カラムヘッダーの行数</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._rowNumberVisible">
+ <summary>行ヘッダーに行番号を表示するか</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._rowHeadersText">
+ <summary>行ヘッダーテキスト</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._rowHeadersTextAlign">
+ <summary>行ヘッダーテキストの配置位置</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._blnKeyEvents">
+ <summary>キーイベントの許可</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._columnHeadersHeight">
+ <summary>カラムヘッダーの行の高さ</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._iKeyPressCount">
+ <summary>キーボード入力回数</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._sKeyPressWord">
+ <summary>キーボード入力文字</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._dtKeyPressTime">
+ <summary>キーボード最終入力日時</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._blSearchFlg">
+ <summary>同一文字検索フラグ</summary>
+</member>
+<member name="F:DitCore.Controls.CclDataGridView._nvcSearchWord">
+ <summary>同一検索文字リスト</summary>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.#ctor">
+ <summary>
+ コンストラクタ
+ </summary>
+</member>
+<member name="P:DitCore.Controls.CclDataGridView.HorizonPos.Left">
+ <summary>
+ 左位置
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclDataGridView.HorizonPos.Right">
+ <summary>
+ テキスト右位置
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclDataGridView.HorizonPos.Width">
+ <summary>
+ 幅
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclDataGridView.HorizonPos.FrozenWidth">
+ <summary>
+ 列固定幅
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclDataGridView.HorizonPos.ColumnBeginIndex">
+ <summary>
+ 列開始インデックス
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclDataGridView.HorizonPos.ColumnEndIndex">
+ <summary>
+ 列終了インデックス
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclDataGridView.HorizonPos.ColumnVisibleBeginIndex">
+ <summary>
+ 表示されている列の開始インデックス
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclDataGridView.HorizonPos.ColumnVisibleEndIndex">
+ <summary>
+ 表示されている列の終了インデックス
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DataGridViewEx_CellPainting(System.Object,System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
+ <summary>
+ セルを描画する必要があるときに発生します。
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DataGridViewEx_RowPostPaint(System.Object,System.Windows.Forms.DataGridViewRowPostPaintEventArgs)">
+ <summary>
+ DataGridViewRow が塗りつぶされた後に発生します。
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DataGridViewEx_MouseMove(System.Object,System.Windows.Forms.MouseEventArgs)">
+ <summary>
+ マウス ポインタがコントロール上を移動すると発生します。
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DataGridViewEx_MouseLeave(System.Object,System.EventArgs)">
+ <summary>
+ マウス ポインタがコントロールを離れると発生します。
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DataGridViewEx_Scroll(System.Object,System.Windows.Forms.ScrollEventArgs)">
+ <summary>
+ ユーザーがコントロールの内容をスクロールすると発生します。
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DataGridViewEx_ColumnHeadersHeightChanged(System.Object,System.EventArgs)">
+ <summary>
+ ColumnHeadersHeight プロパティの値が変更された場合に発生します。
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.dgdList_Key(System.Object,System.Windows.Forms.KeyPressEventArgs)">
+------------------------------------------------------------------------
+ <summary>
+ キーボード押下時
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.OnColumnHeaderMouseClick(System.Windows.Forms.DataGridViewCellMouseEventArgs)">
+ <summary>
+ 列ヘッダーをクリックした直後に発生します。
+ </summary>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DrawLine(System.Windows.Forms.DataGridViewCellPaintingEventArgs,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.Pen)">
+ <summary>
+ 線を描画する
+ </summary>
+ <param name="e"></param>
+ <param name="x1"></param>
+ <param name="y1"></param>
+ <param name="x2"></param>
+ <param name="y2"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DrawHeadesBound(System.Windows.Forms.DataGridViewCellPaintingEventArgs,System.Int32,System.Int32)">
+ <summary>
+ ヘッダ部とデータ部の境目を描画する
+ </summary>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DrawText(System.Windows.Forms.DataGridViewCellPaintingEventArgs,System.String,System.Drawing.Rectangle,System.Windows.Forms.DataGridViewContentAlignment,System.Boolean)">
+ <summary>
+ テキストを描画する
+ </summary>
+ <param name="e"></param>
+ <param name="text"></param>
+ <param name="rect"></param>
+ <param name="align"></param>
+ <param name="drawSortMark"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.CanDrawSortMark(System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
+ <summary>
+ ソート記号を描画する必要があるか、描画可能な幅があるかチェックする
+ </summary>
+ <param name="e"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DrawSortMark(System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
+ <summary>
+ ソート記号を描画する
+ </summary>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.GetStringFormat(System.Windows.Forms.DataGridViewContentAlignment)">
+ <summary>
+ DataGridViewContentAlignment を StringFormat に変換する
+ </summary>
+ <param name="align"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.GetVerticalFlag(System.Windows.Forms.DataGridViewContentAlignment)">
+ <summary>
+ DataGridViewContentAlignment から垂直方向を TextFormatFlags に変換する
+ </summary>
+ <param name="align"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.GetHorizontalFlag(System.Windows.Forms.DataGridViewContentAlignment)">
+ <summary>
+ DataGridViewContentAlignment から水平方向を TextFormatFlags に変換する
+ </summary>
+ <param name="align"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.DrawBackColor(System.Windows.Forms.DataGridViewCellPaintingEventArgs,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
+ <summary>
+ セルの背景を塗りつぶす
+ </summary>
+ <param name="e"></param>
+ <param name="x"></param>
+ <param name="y"></param>
+ <param name="width"></param>
+ <param name="height"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.GetDrawTextRect(System.Int32,System.Int32,System.Int32,System.Int32)">
+ <summary>
+ テキスト描画時に余白を考慮したRectangleを取得
+ </summary>
+ <param name="x"></param>
+ <param name="y"></param>
+ <param name="width"></param>
+ <param name="height"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.GetHorizonPos(System.Int32)">
+ <summary>
+ 水平方向に結合を考慮したセルの開始終了位置を取得
+ </summary>
+ <param name="columnIndex"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.chkBox_main(DitCore.Controls.CclDataGridViewCheckBoxColumn,System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
+ <summary>
+ 列チェックボックス用のヘッダセルを描画します。
+ </summary>
+ <param name="columnBox"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.chkBox_DrawText(System.Windows.Forms.DataGridViewCellPaintingEventArgs,System.String,System.Drawing.Rectangle,System.Windows.Forms.DataGridViewContentAlignment,System.Boolean)">
+ <summary>
+ テキストを縦書きに描画する
+ </summary>
+ <param name="e"></param>
+ <param name="text"></param>
+ <param name="rect"></param>
+ <param name="align"></param>
+ <param name="drawSortMark"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridView.chkBox_CanDrawSortMark(System.Windows.Forms.DataGridViewCellPaintingEventArgs)">
+ <summary>
+ ソート記号を描画する必要があるか、描画可能な幅があるかチェックする
+ </summary>
+ <param name="e"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="T:DitCore.Controls.CclDataGridViewTextBoxColumn">
+ <summary>
+ DataGridViewEx 専用のセルを論理的にホストするクラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridViewTextBoxColumn.Clone">
+ <summary>
+ プロパティをコピーしたクローンを返却
+ </summary>
+ <returns></returns>
+ <remarks>
+ このメソッドがないと追加したプロパティをデザイン上で変更できない
+ </remarks>
+</member>
+<member name="T:DitCore.Controls.CclMenuButton">
+ <summary>
+ メニューボタン
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Controls.CclMenuButton._runFlag">
+ <summary>
+ 実行中フラグ
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclMenuButton.runFlag">
+ <summary>
+ 実行中フラグ
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Controls.CclMenuButton._frameColor">
+ <summary>
+ 枠線の色
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclMenuButton.frameColor">
+ <summary>
+ 枠線の色
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="F:DitCore.Controls.CclMenuButton._frameWidth">
+ <summary>
+ 枠線の幅
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Controls.CclMenuButton.frameWidth">
+ <summary>
+ 枠線の幅
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclMenuButton.OnPaint(System.Windows.Forms.PaintEventArgs)">
+ <summary>
+ OnPaintイベントハンドラ
+ </summary>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="T:DitCore.Controls.CclDataGridViewCheckBoxColumn">
+ <summary>
+ DataGridViewEx 専用のセルを論理的にホストするクラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Controls.CclDataGridViewCheckBoxColumn.Clone">
+ <summary>
+ プロパティをコピーしたクローンを返却
+ </summary>
+ <returns></returns>
+ <remarks>
+ このメソッドがないと追加したプロパティをデザイン上で変更できない
+ </remarks>
+</member>
+<member name="T:DitCore.Dialogs.DlgMessageBox">
+------------------------------------------------------------------------
+ <summary>
+ メッセージボックスクラス
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.TEXT_ABORT">
+ <summary>中止ボタンのボタンテキスト</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.TEXT_RETRY">
+ <summary>再試行ボタンのボタンテキスト</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.TEXT_IGNORE">
+ <summary>無視ボタンのボタンテキスト</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.TEXT_OK">
+ <summary>OKボタンのボタンテキスト</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.TEXT_CANCEL">
+ <summary>キャンセルボタンのボタンテキスト</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.TEXT_YES">
+ <summary>はいボタンのボタンテキスト</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.TEXT_NO">
+ <summary>いいえボタンのボタンテキスト</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.OFFSET_TOP">
+ <summary>メッセージ表示領域の上側のオフセット値</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.OFFSET_BOTTOM">
+ <summary>メッセージ表示領域の下側のオフセット値</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.OFFSET_LEFT">
+ <summary>メッセージ表示領域の左側のオフセット値</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.OFFSET_RIGHT">
+ <summary>メッセージ表示領域の右側のオフセット値</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.BUTTON_SPACE">
+ <summary>ボタンの間隔</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.BUTTON_LEFT">
+ <summary>メッセージ表示領域の左側のオフセット値</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.BUTTON_RIGHT">
+ <summary>メッセージ表示領域の右側のオフセット値</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox.NewLine">
+ <summary>独自指定の改行文字</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox._iMinHeight">
+ <summary>自身の最小の高さ</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox._iMinWidth">
+ <summary>自身の最小の幅</summary>
+</member>
+<member name="F:DitCore.Dialogs.DlgMessageBox._blnChecked">
+ <summary>チェックコントロール状態</summary>
+</member>
+<member name="P:DitCore.Dialogs.DlgMessageBox.Checked">
+ <summary>チェックコントロール状態を取得</summary>
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.#ctor(System.Boolean)">
+------------------------------------------------------------------------
+ <summary>
+ クラスコンストラクタ
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.frmMessageBox_Load(System.Object,System.EventArgs)">
+------------------------------------------------------------------------
+ <summary>
+ フォームロードイベント
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.frmMessageBox_Shown(System.Object,System.EventArgs)">
+------------------------------------------------------------------------
+ <summary>
+ フォーム表示直後イベント
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.DefaultButton_Click(System.Object,System.EventArgs)">
+------------------------------------------------------------------------
+ <summary>
+ [標準]ボタン 押下処理
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.chkButton_CheckedChanged(System.Object,System.EventArgs)">
+------------------------------------------------------------------------
+ <summary>
+ チェックボタン押下
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.Show(System.String)">
+------------------------------------------------------------------------
+ <summary>
+ ダイアログ表示する
+ </summary>
+ <param name="sMessage">表示メッセージ</param>
+ <returns>結果</returns>
+ <remarks>アイコンは表示せずボタンは「OK」のみ。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.Show(System.String,System.String)">
+------------------------------------------------------------------------
+ <summary>
+ ダイアログ表示
+ </summary>
+ <param name="sMessage">表示メッセージ</param>
+ <param name="sCaption">ダイアログキャプション</param>
+ <returns>結果</returns>
+ <remarks>アイコンは表示せずボタンは「OK」のみ。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons)">
+------------------------------------------------------------------------
+ <summary>
+ ダイアログ表示
+ </summary>
+ <param name="sMessage">表示メッセージ</param>
+ <param name="sCaption">ダイアログキャプション</param>
+ <param name="enmButtons">表示ボタン</param>
+ <returns>結果</returns>
+ <remarks>アイコンは表示しない。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.Show(System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
+------------------------------------------------------------------------
+ <summary>
+ ダイアログを表示
+ </summary>
+ <param name="sMessage">表示メッセージ</param>
+ <param name="sCaption">ダイアログキャプション</param>
+ <param name="enmButtons">表示ボタンセット</param>
+ <param name="enmIcon">表示アイコン</param>
+ <returns>結果</returns>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.Show(System.String,System.String,System.String,System.Windows.Forms.MessageBoxButtons,System.Windows.Forms.MessageBoxIcon)">
+------------------------------------------------------------------------
+ <summary>
+ ダイアログ表示
+ </summary>
+ <param name="sMessage">表示メッセージ</param>
+ <param name="sCaption">ダイアログキャプション</param>
+ <param name="enmButtons">表示ボタンセット</param>
+ <param name="enmIcon">表示アイコン</param>
+ <returns>結果</returns>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.SetIcon(System.Windows.Forms.MessageBoxIcon)">
+------------------------------------------------------------------------
+ <summary>
+ アイコンセット
+ </summary>
+ <param name="enmIcon">アイコンの指定</param>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.SetBackColor(System.Windows.Forms.MessageBoxIcon)">
+------------------------------------------------------------------------
+ <summary>
+ アイコンに合わせて背景色をセット
+ </summary>
+ <param name="enmIcon">アイコン指定</param>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.SetMessage(System.String)">
+------------------------------------------------------------------------
+ <summary>
+ メッセージセット
+ </summary>
+ <param name="sMessage">セットするメッセージ</param>
+ <remarks>メッセージは規定の文字列を改行コードに置換</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.SetButtons(System.Windows.Forms.MessageBoxButtons)">
+------------------------------------------------------------------------
+ <summary>
+ ボタンをセット
+ </summary>
+ <param name="enmButtons">セットするボタン</param>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.SetButton(System.Int32,System.String)">
+------------------------------------------------------------------------
+ <summary>
+ ボタンを設定
+ </summary>
+ <param name="iNo">設定するボタン番号</param>
+ <param name="sText">設定するテキスト(Emptyの場合は表示を隠す)</param>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.SetButtonLocation">
+------------------------------------------------------------------------
+ <summary>
+ 現在表示されているボタンの表示位置を調整
+ </summary>
+ <remarks>3つのボタンのサイズは全て同じ事が前提</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgMessageBox.SetCheckButton(System.String)">
+------------------------------------------------------------------------
+ <summary>
+ チェックボタン表示
+ </summary>
+ <param name="sChackMessage">表示メッセージ</param>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitCore.Dialogs.DlgProcess.#ctor(System.String,System.ComponentModel.DoWorkEventHandler,System.Object)">
+ <summary>
+ コンストラクタ
+ </summary>
+ <param name="formTitle"></param>
+ <param name="doWorkEventHandler"></param>
+ <param name="argument"></param>
+ <remarks></remarks>
+</member>
+<member name="P:DitCore.Dialogs.DlgProcess.Result">
+ <summary>
+ DoWorkイベントハンドラで設定された結果
+ </summary>
+</member>
+<member name="P:DitCore.Dialogs.DlgProcess.Error">
+ <summary>
+ バックグラウンド処理中に発生したエラー
+ </summary>
+</member>
+<member name="P:DitCore.Dialogs.DlgProcess.BackgroundWorker">
+ <summary>
+ 処理中ダイアログで使用しているBackgroundWorkerクラス
+ </summary>
+</member>
+<member name="M:DitCore.Dialogs.DlgProcess.DlgProcess_Shown(System.Object,System.EventArgs)">
+ <summary>
+ 表示イベント処理
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Dialogs.DlgProcess.BackgroundWorker1_ProgressChanged(System.Object,System.ComponentModel.ProgressChangedEventArgs)">
+ <summary>
+ バックグラウンド 更新処理
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Dialogs.DlgProcess.BackgroundWorker1_RunWorkerCompleted(System.Object,System.ComponentModel.RunWorkerCompletedEventArgs)">
+ <summary>
+ バックグラウンド 終了処理
+ </summary>
+ <param name="sender"></param>
+ <param name="e"></param>
+ <remarks></remarks>
+</member>
+<member name="M:DitCore.Dialogs.DlgProcess.Timer1_Tick(System.Object,System.EventArgs)">
+------------------------------------------------------------------------
+ <summary>
+ タイマー Tick イベント処理
+ </summary>
+ <param name="sender">オブジェクト</param>
+ <param name="e">イベント情報</param>
+------------------------------------------------------------------------
+</member>
+</members>
+</doc>

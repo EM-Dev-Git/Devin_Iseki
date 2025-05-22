@@ -1,0 +1,619 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+DitDataAccess
+</name>
+</assembly>
+<members>
+<member name="T:DitDataAccess.My.Resources.Resources">
+<summary>
+  ローカライズされた文字列などを検索するための、厳密に型指定されたリソース クラスです。
+</summary>
+</member>
+<member name="P:DitDataAccess.My.Resources.Resources.ResourceManager">
+<summary>
+  このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
+</summary>
+</member>
+<member name="P:DitDataAccess.My.Resources.Resources.Culture">
+<summary>
+  厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+  現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
+</summary>
+</member>
+<member name="T:DitDataAccess.Files.OutputLine">
+------------------------------------------------------------------------
+ <summary>
+ ファイル出力クラス
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="F:DitDataAccess.Files.OutputLine._sOutputFolder">
+ <summary>ログファイル格納フォルダ</summary>
+</member>
+<member name="F:DitDataAccess.Files.OutputLine._sOutputFileName">
+ <summary>ログファイル(拡張子なし)</summary>
+</member>
+<member name="F:DitDataAccess.Files.OutputLine._sOutputFilePath">
+ <summary>ログファイルパス</summary>
+</member>
+<member name="M:DitDataAccess.Files.OutputLine.#ctor">
+--------------------------------------------------------------------
+ <summary>
+ クラスコンストラクタ</summary>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.Files.OutputLine.Initialize(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ 初期化
+ </summary>
+ <param name="sOutputFileName">出力ファイル名</param>
+ <returns>True:正常、False:異常</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.Files.OutputLine.Write(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ ファイル書込み
+ </summary>
+ <remarks>ログファイルに情報を書込み。</remarks>
+ <param name="sMessage">書き込む情報を格納したメッセージ</param>
+ <returns>True:成功、False:失敗</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.Files.OutputLine.WriteLine(System.String,System.String[])">
+--------------------------------------------------------------------
+ <summary>
+ 書込み
+ </summary>
+ <param name="sMessage">書き込む情報を格納したメッセージ</param>
+ <returns>True:成功、False:失敗</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.Files.OutputLine.WriteLine(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ 書込み
+ </summary>
+ <param name="sMessage">書き込む情報を格納したメッセージ</param>
+ <returns>True:成功、False:失敗</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.Files.OutputLine.FileExists">
+--------------------------------------------------------------------
+ <summary>
+ ファイルの存在チェック
+ </summary>
+ <returns>True:ファイルが存在、False:ファイルが存在しない</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.Files.OutputLine.ExpressionFile">
+--------------------------------------------------------------------
+ <summary>
+ メモ帳起動
+ </summary>
+--------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbSegment1">
+ <summary>
+ M_SEG1テーブルアクセスクラス
+ </summary>
+ <remarks>DataBases.DbBaseクラスを継承</remarks>
+</member>
+<member name="M:DitDataAccess.DataBases.DbSegment1.#ctor(System.Boolean,System.String,System.String)">
+----------------------------------------------------------------------------
+ <summary>
+ クラス生成
+ </summary>
+ <remarks>トランザクションモードで起動</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.DbSegment1.Dispose">
+----------------------------------------------------------------------------
+ <summary>
+ クラス破棄
+ </summary>
+ <remarks>コミット(ロールバックする際には、実行元でRollBackを実行)</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbSegment1.Segment1TB">
+ <summary>相手先データ格納クラス</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.DbSegment1.clsSegment1TB">
+ <summary>相手先データ格納変数</summary>
+</member>
+<member name="M:DitDataAccess.DataBases.DbSegment1.SelectSegment1AllData">
+----------------------------------------------------------------------------
+ <summary>
+ 相手先データ取得
+ </summary>
+ <returns>True:成功、False:失敗</returns>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbShiwake">
+----------------------------------------------------------------------------
+ <summary>
+ T_SIWAKEテーブルアクセスクラス
+ </summary>
+ <remarks>DataBases.DbBaseクラスを継承</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.DbShiwake.#ctor(System.Boolean,System.String,System.String)">
+----------------------------------------------------------------------------
+ <summary>
+ クラス生成
+ </summary>
+ <remarks>トランザクションモードで起動</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.DbShiwake.Dispose">
+----------------------------------------------------------------------------
+ <summary>
+ クラス破棄
+ </summary>
+ <remarks>コミット(ロールバックする際には、実行元でRollBackを実行)</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbShiwake.ShiwakeTB">
+ <summary>仕訳データ格納クラス</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.DbShiwake.clsShiwakeTB">
+ <summary>仕訳データ格納変数</summary>
+</member>
+<member name="M:DitDataAccess.DataBases.DbShiwake.SelectShiwakeAddData(System.String)">
+----------------------------------------------------------------------------
+ <summary>
+ 仕訳データ取得
+ </summary>
+ <returns>True:成功、False:失敗</returns>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.BaseSqlDb">
+----------------------------------------------------------------------------
+ <summary>
+ DBアクセス用ベースクラス
+ </summary>
+ <remarks>DBへの接続、トランザクションを管理。</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="F:DitDataAccess.DataBases.BaseSqlDb.conConnect">
+ <summary>接続DB(Release用)</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.BaseSqlDb._sConnectDB">
+ <summary>接続DB</summary>
+</member>
+<member name="P:DitDataAccess.DataBases.BaseSqlDb.ConnectDB">
+ <summary>接続DB情報の取得</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.BaseSqlDb._objConnection">
+ <summary>SQLサーバコネクション</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.BaseSqlDb._objTransaction">
+ <summary>SQLトランザクション</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.BaseSqlDb._objCommand">
+ <summary>SQLコマンド</summary>
+</member>
+<member name="P:DitDataAccess.DataBases.BaseSqlDb.Command">
+ <summary>SQLコマンドの取得</summary>
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.#ctor">
+------------------------------------------------------------------------
+ <summary>
+ コンストラクタ
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.#ctor(System.Boolean,System.String,System.String)">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続
+ </summary>
+ <param name="lbnDebugMode">実行モード</param>
+ <param name="sDBName">DB名</param>
+ <param name="sServerName">SQLサーバ名</param>
+ <remarks>実行モードにより接続先のDB情報を切り替えを行います。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.#ctor(System.Boolean,System.String,System.String,System.Boolean)">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続
+ </summary>
+ <param name="lbnDebugMode">実行モード</param>
+ <param name="sDBname">接続DB名</param>
+ <param name="sDBName">DB名</param>
+ <param name="sServerName">SQLサーバ名</param>
+ <param name="bDummy">ダミー</param>
+ <remarks>実行モードにより接続先のDB情報を切り替えを行います。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.#ctor(System.Data.SqlClient.SqlConnection)">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続
+ </summary>
+ <param name="objConnection">コネクション</param>
+ <remarks>実行モードにより接続先のDB情報を切り替えを実行</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.Dispose">
+------------------------------------------------------------------------
+ <summary>
+ アンマネージリソースを開放
+ </summary>
+ <remarks>トランザクションモードの場合は自動的にRollBack</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.BeginTransaction">
+------------------------------------------------------------------------
+ <summary>
+ トランザクション開始
+ </summary>
+ <remarks>トランザクションを開始</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.CommitTransact">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続を切断(Commit)
+ </summary>
+ <return>True:成功、False:失敗</return>
+ <remarks>Commitを使用してコネクションを切断</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.RollbackTransact">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続を切断(Rollback)
+ </summary>
+ <return>True:成功、False:失敗</return>
+ <remarks>Rollbackを使用してコネクションを切断。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.ChangeIntDateToStrDate(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ 数値で管理されている日付データを文字列日付に変換
+ </summary>
+ <param name="sDate">日付</param>
+ <returns>変換後の日付</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.BaseSqlDb.ChangeIntTimeToStrTime(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ 数値で管理されている時刻データを文字列時刻に変換
+ </summary>
+ <param name="sTime">時刻</param>
+ <returns>変換後の時刻</returns>
+--------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbKamoku">
+----------------------------------------------------------------------------
+ <summary>
+ M_KAMOKUテーブルアクセスクラス
+ </summary>
+ <remarks>DataBases.DbBaseクラスを継承</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.DbKamoku.#ctor(System.Boolean,System.String,System.String)">
+----------------------------------------------------------------------------
+ <summary>
+ クラス生成
+ </summary>
+ <remarks>トランザクションモードで起動</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.DbKamoku.Dispose">
+----------------------------------------------------------------------------
+ <summary>
+ クラス破棄
+ </summary>
+ <remarks>コミット(ロールバックする際には、実行元でRollBackを実行)</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbKamoku.KamokuTB">
+ <summary>勘定科目データ格納クラス</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.DbKamoku.clsKamokuTB">
+ <summary>勘定科目データ格納変数</summary>
+</member>
+<member name="M:DitDataAccess.DataBases.DbKamoku.SelectKamokuAllData">
+----------------------------------------------------------------------------
+ <summary>
+ 勘定科目データ取得
+ </summary>
+ <returns>True:成功、False:失敗</returns>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbSegment2">
+ <summary>
+ M_SEG2テーブルアクセスクラス
+ </summary>
+ <remarks>DataBases.DbBaseクラスを継承</remarks>
+</member>
+<member name="M:DitDataAccess.DataBases.DbSegment2.#ctor(System.Boolean,System.String,System.String)">
+----------------------------------------------------------------------------
+ <summary>
+ クラス生成
+ </summary>
+ <remarks>トランザクションモードで起動</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.DbSegment2.Dispose">
+----------------------------------------------------------------------------
+ <summary>
+ クラス破棄
+ </summary>
+ <remarks>コミット(ロールバックする際には、実行元でRollBackを実行)</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbSegment2.Segment2TB">
+ <summary>セグメント２データ格納クラス</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.DbSegment2.clsSegment2TB">
+ <summary>セグメント２データ格納変数</summary>
+</member>
+<member name="M:DitDataAccess.DataBases.DbSegment2.SelectSegment2AllData">
+----------------------------------------------------------------------------
+ <summary>
+ セグメント２データ取得
+ </summary>
+ <returns>True:成功、False:失敗</returns>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbTori">
+----------------------------------------------------------------------------
+ <summary>
+ M_TORIテーブルアクセスクラス
+ </summary>
+ <remarks>DataBases.DbBaseクラスを継承</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.DbTori.#ctor(System.Boolean,System.String,System.String)">
+----------------------------------------------------------------------------
+ <summary>
+ クラス生成
+ </summary>
+ <remarks>トランザクションモードで起動</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.DbTori.Dispose">
+----------------------------------------------------------------------------
+ <summary>
+ クラス破棄
+ </summary>
+ <remarks>コミット(ロールバックする際には、実行元でRollBackを実行)</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.DbTori.ToriTB">
+ <summary>取引先データ格納クラス</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.DbTori.clsToriTB">
+ <summary>取引先データ格納変数</summary>
+</member>
+<member name="M:DitDataAccess.DataBases.DbTori.SelectToriAllData">
+----------------------------------------------------------------------------
+ <summary>
+ 取引先データ取得
+ </summary>
+ <returns>True:成功、False:失敗</returns>
+----------------------------------------------------------------------------
+</member>
+<member name="T:DitDataAccess.DataBases.SqlDataBase">
+----------------------------------------------------------------------------
+ <summary>
+ DBアクセス用ベースクラス
+ </summary>
+ <remarks>DBへの接続、トランザクションを管理。</remarks>
+----------------------------------------------------------------------------
+</member>
+<member name="F:DitDataAccess.DataBases.SqlDataBase.sqlGetComment">
+ <summary>
+ 項目説明を取得するためのSQL文
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitDataAccess.DataBases.SqlDataBase.conConnect">
+ <summary>接続DB(Release用)</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.SqlDataBase._sConnectDB">
+ <summary>接続DB</summary>
+</member>
+<member name="P:DitDataAccess.DataBases.SqlDataBase.ConnectDB">
+ <summary>接続DB情報の取得</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.SqlDataBase._objConnection">
+ <summary>SQLサーバコネクション</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.SqlDataBase._objTransaction">
+ <summary>SQLトランザクション</summary>
+</member>
+<member name="F:DitDataAccess.DataBases.SqlDataBase._objCommand">
+ <summary>SQLコマンド</summary>
+</member>
+<member name="P:DitDataAccess.DataBases.SqlDataBase.Command">
+ <summary>SQLコマンドの取得</summary>
+</member>
+<member name="T:DitDataAccess.DataBases.SqlDataBase.DataInfomation">
+ <summary>
+ SELECT文実行時のデータ(スキーマ＋データリスト)のクラス
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="F:DitDataAccess.DataBases.SqlDataBase._DbData">
+ <summary>
+ SELECT文実行時のデータ(項目の詳細＋レコード)
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="P:DitDataAccess.DataBases.SqlDataBase.DbData">
+ <summary>
+ SELECT文実行時のデータ(項目の詳細＋レコード)
+ </summary>
+ <value></value>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="F:DitDataAccess.DataBases.SqlDataBase._dataBaseInfo">
+ <summary>
+ 項目説明を考慮したデータ
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.#ctor">
+------------------------------------------------------------------------
+ <summary>
+ コンストラクタ
+ </summary>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.#ctor(System.Boolean,System.String,System.String,System.String,System.String)">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続
+ </summary>
+ <param name="lbnDebugMode">実行モード</param>
+ <param name="sDBName">DB名</param>
+ <param name="sServerName">SQLサーバ名</param>
+ <remarks>実行モードにより接続先のDB情報を切り替えを行います。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.#ctor(System.Boolean,System.String,System.String,System.String,System.String,System.Boolean)">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続
+ </summary>
+ <param name="lbnDebugMode">実行モード</param>
+ <param name="sDBname">接続DB名</param>
+ <param name="sDBName">DB名</param>
+ <param name="sServerName">SQLサーバ名</param>
+ <param name="bDummy">ダミー</param>
+ <remarks>実行モードにより接続先のDB情報を切り替えを行います。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.#ctor(System.Data.SqlClient.SqlConnection)">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続
+ </summary>
+ <param name="objConnection">コネクション</param>
+ <remarks>実行モードにより接続先のDB情報を切り替えを実行</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.Dispose">
+------------------------------------------------------------------------
+ <summary>
+ アンマネージリソースを開放
+ </summary>
+ <remarks>トランザクションモードの場合は自動的にRollBack</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.BeginTransaction">
+------------------------------------------------------------------------
+ <summary>
+ トランザクション開始
+ </summary>
+ <remarks>トランザクションを開始</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.CommitTransact">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続を切断(Commit)
+ </summary>
+ <return>True:成功、False:失敗</return>
+ <remarks>Commitを使用してコネクションを切断</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.RollbackTransact">
+------------------------------------------------------------------------
+ <summary>
+ DBへの接続を切断(Rollback)
+ </summary>
+ <return>True:成功、False:失敗</return>
+ <remarks>Rollbackを使用してコネクションを切断。</remarks>
+------------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.ChangeIntDateToStrDate(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ 数値で管理されている日付データを文字列日付に変換
+ </summary>
+ <param name="sDate">日付</param>
+ <returns>変換後の日付</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.ChangeIntTimeToStrTime(System.String)">
+--------------------------------------------------------------------
+ <summary>
+ 数値で管理されている時刻データを文字列時刻に変換
+ </summary>
+ <param name="sTime">時刻</param>
+ <returns>変換後の時刻</returns>
+--------------------------------------------------------------------
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.getSQLData(System.String)">
+ <summary>
+ SQL文（SELECT）実行し、データを取得する
+ </summary>
+ <param name="sSQL">SELECT文</param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.execSql(System.String)">
+ <summary>
+ SQL文の実行(Insert/Update/Delete)
+ </summary>
+ <param name="sSQL"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.getSchema">
+ <summary>
+ スキーマ情報を取得
+ </summary>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.GetTypeSchema(System.String)">
+ <summary>
+ スキーマ情報からタイプを取得
+ </summary>
+ <param name="stype"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.StrToInt(System.String)">
+ <summary>
+ 文字列から数字型に変換
+ </summary>
+ <param name="str"></param>
+ <returns></returns>
+ <remarks></remarks>
+</member>
+<member name="M:DitDataAccess.DataBases.SqlDataBase.GetItemType(System.String)">
+ <summary>
+ 項目の型(string/decimal/...)を取得する
+ </summary>
+ <param name="key">キー情報</param>
+ <returns>タイプ</returns>
+ <remarks></remarks>
+</member>
+<member name="T:DitDataAccess.DataBases.ItemInfo">
+ <summary>
+ 項目情報
+ </summary>
+ <remarks></remarks>
+</member>
+<member name="T:DitDataAccess.DataBases.SchemaDetail">
+ <summary>
+ スキーマ詳細
+ </summary>
+ <remarks></remarks>
+</member>
+</members>
+</doc>

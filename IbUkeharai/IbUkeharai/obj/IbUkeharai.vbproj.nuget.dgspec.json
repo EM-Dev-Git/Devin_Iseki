@@ -1,0 +1,89 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\IbUkeharai\\IbUkeharai.vbproj": {}
+  },
+  "projects": {
+    "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitCore\\DitCore.vbproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitCore\\DitCore.vbproj",
+        "projectName": "DitCore",
+        "projectPath": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitCore\\DitCore.vbproj",
+        "frameworks": {
+          "net40": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net40": {}
+      }
+    },
+    "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitDataAccess\\DitDataAccess.vbproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitDataAccess\\DitDataAccess.vbproj",
+        "projectName": "DitDataAccess",
+        "projectPath": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitDataAccess\\DitDataAccess.vbproj",
+        "frameworks": {
+          "net40": {
+            "projectReferences": {
+              "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitCore\\DitCore.vbproj": {
+                "projectPath": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitCore\\DitCore.vbproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net40": {}
+      }
+    },
+    "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\IbUkeharai\\IbUkeharai.vbproj": {
+      "version": "1.1.8",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\IbUkeharai\\IbUkeharai.vbproj",
+        "projectName": "IbUkeharai",
+        "projectPath": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\IbUkeharai\\IbUkeharai.vbproj",
+        "packagesPath": "C:\\Users\\EM-B-H0083\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\IbUkeharai\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\EM-B-H0083\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net46"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net46": {
+            "targetAlias": "net46",
+            "projectReferences": {
+              "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitCore\\DitCore.vbproj": {
+                "projectPath": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitCore\\DitCore.vbproj"
+              },
+              "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitDataAccess\\DitDataAccess.vbproj": {
+                "projectPath": "C:\\Users\\EM-B-H0083\\Documents\\お仕事入れ\\SS部\\受払管理システム\\SVN\\IbUkeharai\\DitDataAccess\\DitDataAccess.vbproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net46": {
+          "targetAlias": "net46",
+          "dependencies": {
+            "Microsoft.ReportingServices.ReportViewerControl.Winforms": {
+              "target": "Package",
+              "version": "[150.1537.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
