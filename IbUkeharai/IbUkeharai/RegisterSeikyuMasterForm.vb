@@ -691,8 +691,9 @@ Namespace IbUkeharai
 						dataGridViewRow.Cells("TANKA").Style.BackColor = Me._bkcolor_normal
 						dataGridViewRow.Cells("TANI").[ReadOnly] = False
 						dataGridViewRow.Cells("TANI").Style.BackColor = Me._bkcolor_normal
-						dataGridViewRow.Cells("KINGAKU").[ReadOnly] = False
-						dataGridViewRow.Cells("KINGAKU").Style.BackColor = Me._bkcolor_normal
+						' ===== 修正: 金額フィールドを常に読み取り専用に =====
+						dataGridViewRow.Cells("KINGAKU").[ReadOnly] = True
+						dataGridViewRow.Cells("KINGAKU").Style.BackColor = Me._bkcolor_readonly
 						dataGridViewRow.Cells("KAZEI_KBN").[ReadOnly] = False
 						dataGridViewRow.Cells("KAZEI_KBN").Style.BackColor = Me._bkcolor_normal
 						dataGridViewRow.Cells("MEISAI_UMU").[ReadOnly] = False
@@ -1627,6 +1628,84 @@ IL_13C0:
 					dataGridViewRow.Cells("MEISAI_UMU").ErrorText = "入力値に誤りがあります！"
 				End If
 			End If
+			
+			' ===== 追加: 自動計算機能 =====
+			' SURYO（数量）またはTANKA（単価）が変更された場合、KINGAKU（金額）を自動計算
+			If "SURYO".Equals(dataGridViewColumn.Name) OrElse "TANKA".Equals(dataGridViewColumn.Name) Then
+				' エラー表示をクリア
+				dataGridViewRow.Cells("SURYO").ErrorText = Nothing
+				dataGridViewRow.Cells("TANKA").ErrorText = Nothing
+				dataGridViewRow.Cells("TANI").ErrorText = Nothing
+				
+				' 数量と単価の値を取得
+				Dim suryo As Decimal = 0
+				Dim tanka As Decimal = 0
+				Dim hasValue As Boolean = True
+				
+				' 数量の検証
+				If IsNothing(dataGridViewRow.Cells("SURYO").Value) OrElse 
+				   String.IsNullOrEmpty(Conversions.ToString(dataGridViewRow.Cells("SURYO").Value)) Then
+					dataGridViewRow.Cells("SURYO").Style.BackColor = Color.MistyRose
+					hasValue = False
+				Else
+					Decimal.TryParse(Conversions.ToString(dataGridViewRow.Cells("SURYO").Value), suryo)
+					dataGridViewRow.Cells("SURYO").Style.BackColor = Me._bkcolor_normal
+				End If
+				
+				' 単価の検証
+				If IsNothing(dataGridViewRow.Cells("TANKA").Value) OrElse 
+				   String.IsNullOrEmpty(Conversions.ToString(dataGridViewRow.Cells("TANKA").Value)) Then
+					dataGridViewRow.Cells("TANKA").Style.BackColor = Color.MistyRose
+					hasValue = False
+				Else
+					Decimal.TryParse(Conversions.ToString(dataGridViewRow.Cells("TANKA").Value), tanka)
+					dataGridViewRow.Cells("TANKA").Style.BackColor = Me._bkcolor_normal
+				End If
+				
+				' 単位の検証
+				If IsNothing(dataGridViewRow.Cells("TANI").Value) OrElse 
+				   String.IsNullOrEmpty(Conversions.ToString(dataGridViewRow.Cells("TANI").Value)) Then
+					dataGridViewRow.Cells("TANI").Style.BackColor = Color.MistyRose
+				Else
+					dataGridViewRow.Cells("TANI").Style.BackColor = Me._bkcolor_normal
+				End If
+				
+				' 数量と単価の両方が入力されている場合、金額を計算
+				If hasValue Then
+					' 取引先情報から端数処理方法を取得
+					Dim hasuKbn As String = "1" ' デフォルト値
+					Using sqlDataBase As New SqlDataBase(Me._conf.xmlConfData.xDataBase)
+						Dim sql As String = "SELECT HASU_KBN FROM Ukeharai.M_TORI WHERE TORI_CD = '" & Me.ComboTori1.Text.Trim() & "'"
+						If sqlDataBase.execSql(sql) Then
+							If sqlDataBase.DbData.DataList.Count > 0 Then
+								hasuKbn = Conversions.ToString(sqlDataBase.DbData.DataList(0)("HASU_KBN"))
+							End If
+						End If
+					End Using
+					
+					' 金額を計算（数量 × 単価）
+					Dim kingaku As Decimal = suryo * tanka
+					
+					' 端数処理（取引先マスタのHASU_KBNに基づく）
+					kingaku = Common.hasu(kingaku, hasuKbn)
+					
+					' 金額を設定
+					dataGridViewRow.Cells("KINGAKU").Value = kingaku
+				End If
+			End If
+			
+			' 単位の検証（単独で変更された場合）
+			If "TANI".Equals(dataGridViewColumn.Name) Then
+				dataGridViewRow.Cells("TANI").ErrorText = Nothing
+				If IsNothing(dataGridViewRow.Cells("TANI").Value) OrElse 
+				   String.IsNullOrEmpty(Conversions.ToString(dataGridViewRow.Cells("TANI").Value)) Then
+					dataGridViewRow.Cells("TANI").Style.BackColor = Color.MistyRose
+				Else
+					dataGridViewRow.Cells("TANI").Style.BackColor = Me._bkcolor_normal
+				End If
+			End If
+			' ===== 追加ここまで =====
+			
 IL_330:
 			dataGridViewRow = Nothing
 		End Sub
