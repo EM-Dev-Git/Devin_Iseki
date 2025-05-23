@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xRoot xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <xPath>
+    <LogFileName>IbUkeharai.log</LogFileName>
+  </xPath>
+  <xDataBase>
+    <DBName>UkeharaiDB_Matsuyama</DBName>
+    <ServerName>EM-B-H0083\SQLEXPRESS</ServerName>
+    <UserId>dit</UserId>
+    <PassWord>dit</PassWord>
+  </xDataBase>
+  <xFtpServer>
+    <FtpUrl>ftp://localhost/LXPDAT/G100</FtpUrl>
+    <FtpBackUpUrl>ftp://localhost/LXPDAT/G100/BackUp</FtpBackUpUrl>
+    <UserId>ftp_user</UserId>
+    <Password>ftp_password1</Password>
+    <TestMode>FALSE</TestMode>
+  </xFtpServer>
+  <xFtpServer_Keppin>
+    <FtpUrl>ftp://localhost/LXPDAT/G100/</FtpUrl>
+    <UserId>ftp_user</UserId>
+    <Password>ftp_password1</Password>
+    <TestMode>FALSE</TestMode>
+    <MatsuyamaFilename>
+      <Buhinsindo>QIG14M92.txt</Buhinsindo>
+      <Sisan>QIG14M91.txt</Sisan>
+      <Cyuzan>QIG05M91.txt</Cyuzan>
+    </MatsuyamaFilename>
+    <KumamotoFilename>
+      <Buhinsindo>QIG14K92.txt</Buhinsindo>
+      <Sisan>QIG14K91.txt</Sisan>
+      <Cyuzan>QIG05K91.txt</Cyuzan>
+    </KumamotoFilename>
+    <ShigenobuFilename>
+      <Buhinsindo>QIG14S92.txt</Buhinsindo>
+      <Sisan>QIG14S91.txt</Sisan>
+      <Cyuzan>QIG05S91.txt</Cyuzan>
+    </ShigenobuFilename>
+  </xFtpServer_Keppin>
+  <Message>変更する際は文字コード「UTF-8」にご注意を！</Message>
+  <Kyoten>Matsuyama</Kyoten>
+  <BaseFolder>C:\Users\EM-B-H0083\Documents\お仕事入れ\SS部\受払管理システム\テストデータ_sample\受入データ書き込み</BaseFolder>
+  <Memory>ON</Memory>
+</xRoot>
