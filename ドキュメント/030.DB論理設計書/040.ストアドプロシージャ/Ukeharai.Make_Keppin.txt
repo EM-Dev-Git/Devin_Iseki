@@ -1,0 +1,1116 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Make_Keppin]    Script Date: 2022/11/16 8:15:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Make_Keppin]
+	-- Add the parameters for the stored procedure here
+AS
+BEGIN
+	--------------
+	-- 変数宣言 --
+	--------------
+	-- 部品進度テーブル用
+	DECLARE @s_nohinsaki varchar(1);
+	DECLARE @s_tori_cd varchar(8);
+	DECLARE @s_buhin_cd varchar(12);
+	DECLARE @s_yyyymm varchar(6);
+	DECLARE @s_1day numeric(4,0);
+	DECLARE @s_2day numeric(4,0);
+	DECLARE @s_3day numeric(4,0);
+	DECLARE @s_4day numeric(4,0);
+	DECLARE @s_5day numeric(4,0);
+	DECLARE @s_6day numeric(4,0);
+	DECLARE @s_7day numeric(4,0);
+	DECLARE @s_8day numeric(4,0);
+	DECLARE @s_9day numeric(4,0);
+	DECLARE @s_10day numeric(4,0);
+	DECLARE @s_11day numeric(4,0);
+	DECLARE @s_12day numeric(4,0);
+	DECLARE @s_13day numeric(4,0);
+	DECLARE @s_14day numeric(4,0);
+	DECLARE @s_15day numeric(4,0);
+	DECLARE @s_16day numeric(4,0);
+	DECLARE @s_17day numeric(4,0);
+	DECLARE @s_18day numeric(4,0);
+	DECLARE @s_19day numeric(4,0);
+	DECLARE @s_20day numeric(4,0);
+	DECLARE @s_21day numeric(4,0);
+	DECLARE @s_22day numeric(4,0);
+	DECLARE @s_23day numeric(4,0);
+	DECLARE @s_24day numeric(4,0);
+	DECLARE @s_25day numeric(4,0);
+	DECLARE @s_26day numeric(4,0);
+	DECLARE @s_27day numeric(4,0);
+	DECLARE @s_28day numeric(4,0);
+	DECLARE @s_29day numeric(4,0);
+	DECLARE @s_30day numeric(4,0);
+	DECLARE @s_31day numeric(4,0);
+	DECLARE @s_next_1day numeric(4,0);
+	DECLARE @s_next_2day numeric(4,0);
+	DECLARE @s_next_3day numeric(4,0);
+	DECLARE @s_next_4day numeric(4,0);
+	DECLARE @s_next_5day numeric(4,0);
+	DECLARE @s_next_6day numeric(4,0);
+	DECLARE @s_next_7day numeric(4,0);
+	DECLARE @s_next_8day numeric(4,0);
+	DECLARE @s_next_9day numeric(4,0);
+	DECLARE @s_next_10day numeric(4,0);
+	DECLARE @s_next_11day numeric(4,0);
+	DECLARE @s_next_12day numeric(4,0);
+	DECLARE @s_next_13day numeric(4,0);
+	DECLARE @s_next_14day numeric(4,0);
+	DECLARE @s_next_15day numeric(4,0);
+	DECLARE @s_next_16day numeric(4,0);
+	DECLARE @s_next_17day numeric(4,0);
+	DECLARE @s_next_18day numeric(4,0);
+	DECLARE @s_next_19day numeric(4,0);
+	DECLARE @s_next_20day numeric(4,0);
+	DECLARE @s_next_21day numeric(4,0);
+	DECLARE @s_next_22day numeric(4,0);
+	DECLARE @s_next_23day numeric(4,0);
+	DECLARE @s_next_24day numeric(4,0);
+	DECLARE @s_next_25day numeric(4,0);
+	DECLARE @s_next_26day numeric(4,0);
+	DECLARE @s_next_27day numeric(4,0);
+	DECLARE @s_next_28day numeric(4,0);
+	DECLARE @s_next_29day numeric(4,0);
+	DECLARE @s_next_30day numeric(4,0);
+	DECLARE @s_next_31day numeric(4,0);
+	-- 試算表テーブル用
+	DECLARE @s_1month_ym varchar(6);
+	DECLARE @s_2month_ym varchar(6);
+	DECLARE @s_3month_ym varchar(6);
+	DECLARE @s_4month_ym varchar(6);
+	DECLARE @s_5month_ym varchar(6);
+	DECLARE @s_6month_ym varchar(6);
+	DECLARE @s_7month_ym varchar(6);
+	DECLARE @s_8month_ym varchar(6);
+	DECLARE @s_9month_ym varchar(6);
+	DECLARE @s_10month_ym varchar(6);
+	DECLARE @s_11month_ym varchar(6);
+	DECLARE @s_12month_ym varchar(6);
+	DECLARE @s_1month numeric(7,0);
+	DECLARE @s_2month numeric(7,0);
+	DECLARE @s_3month numeric(7,0);
+	DECLARE @s_4month numeric(7,0);
+	DECLARE @s_5month numeric(7,0);
+	DECLARE @s_6month numeric(7,0);
+	DECLARE @s_7month numeric(7,0);
+	DECLARE @s_8month numeric(7,0);
+	DECLARE @s_9month numeric(7,0);
+	DECLARE @s_10month numeric(7,0);
+	DECLARE @s_11month numeric(7,0);
+	DECLARE @s_12month numeric(7,0);
+    -- 受払明細テーブル用
+    DECLARE @tum_uke_su numeric(7,0);
+    DECLARE @tum_harai_su numeric(7,0);
+    -- 受払実績テーブル用
+    DECLARE @tuj_zaiko_su numeric(7,0);
+	-- 取引先マスタ用
+	DECLARE @tm_tori_name varchar(42);
+	-- 部品マスタ用
+	DECLARE @bm_buhin_name varchar(20);
+	DECLARE @bm_tana_no1 varchar(8);
+	DECLARE @bm_tana_no2 varchar(8);
+	DECLARE @bm_tana_no3 varchar(8);
+	DECLARE @bm_torihin_no varchar(24);
+	DECLARE @bm_kikaku varchar(24);
+	DECLARE @bm_ikisaki_cd nvarchar(12);
+	DECLARE @bm_teban numeric(2,0);
+	-- その他
+    DECLARE @oth_1day  numeric(6,0);
+    DECLARE @oth_2day  numeric(6,0);
+    DECLARE @oth_3day  numeric(6,0);
+    DECLARE @oth_4day  numeric(6,0);
+    DECLARE @oth_5day  numeric(6,0);
+    DECLARE @oth_6day  numeric(6,0);
+    DECLARE @oth_7day  numeric(6,0);
+    DECLARE @oth_8day  numeric(6,0);
+    DECLARE @oth_9day  numeric(6,0);
+    DECLARE @oth_10day numeric(6,0);
+    DECLARE @oth_11day numeric(6,0);
+    DECLARE @oth_12day numeric(6,0);
+    DECLARE @oth_13day numeric(6,0);
+    DECLARE @oth_14day numeric(6,0);
+    DECLARE @oth_15day numeric(6,0);
+    DECLARE @oth_16day numeric(6,0);
+    DECLARE @oth_17day numeric(6,0);
+    DECLARE @oth_18day numeric(6,0);
+    DECLARE @oth_19day numeric(6,0);
+    DECLARE @oth_20day numeric(6,0);
+    DECLARE @oth_21day numeric(6,0);
+    DECLARE @oth_22day numeric(6,0);
+    DECLARE @oth_23day numeric(6,0);
+    DECLARE @oth_24day numeric(6,0);
+    DECLARE @oth_25day numeric(6,0);
+    DECLARE @oth_26day numeric(6,0);
+    DECLARE @oth_27day numeric(6,0);
+    DECLARE @oth_28day numeric(6,0);
+    DECLARE @oth_29day numeric(6,0);
+    DECLARE @oth_30day numeric(6,0);
+    DECLARE @oth_31day numeric(6,0);
+
+
+
+	-- システム日付
+	DECLARE @sysday date = GETDATE();
+	DECLARE @dd numeric(2,0) = FORMAT(@sysday, 'dd');
+
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	-- 欠品部品情報テーブルをクリアする
+	DELETE FROM [Ukeharai].[T_KEPPIN];
+
+	-- 一時テーブルを作成（欠品部品情報テーブルと同等）
+	CREATE TABLE #tmp_keppin(
+		[KAKUNIN] [varchar](1) NULL,
+		[LINE] [date] NULL,
+		[TEBAN] [numeric](2, 0) NULL,
+		[FUSOKU_TOGETU] [numeric](6, 0) NULL,
+		[FUSOKU_JIGETU] [numeric](6, 0) NULL,
+		[CYUZAN] [numeric](8, 0) NULL,
+		[NOKI] [date] NULL,
+		[NOHINSAKI] [varchar](1) NOT NULL,
+		[NYUKABI] [date] NULL,
+		[TORI_CD] [varchar](8) NOT NULL,
+		[TORI_NAME] [varchar](42) NULL,
+		[BUHIN_CD] [varchar](12) NOT NULL,
+		[BUHIN_NAME] [varchar](20) NULL,
+		[TANA_NO1] [varchar](8) NULL,
+		[TANA_NO2] [varchar](8) NULL,
+		[TANA_NO3] [varchar](8) NULL,
+		[TORIHIN_NO] [varchar](24) NULL,
+		[KIKAKU] [varchar](24) NULL,
+		[IKISAKI_CD] [nvarchar](12) NULL,
+		[UKESU] [numeric](7, 0) NULL,
+		[HARASU] [numeric](7, 0) NULL,
+		[ZAIKO] [numeric](7, 0) NULL,
+		[SISAN_1ST] [numeric](7, 0) NULL,
+		[KABUSOKU_1ST] [numeric](7, 0) NULL,
+		[SISAN_2ND] [numeric](7, 0) NULL,
+		[KABUSOKU_2ND] [numeric](8, 0) NULL,
+		[SISAN_3RD] [numeric](7, 0) NULL,
+		[KABUSOKU_3RD] [numeric](8, 0) NULL,
+		[CYUZAN_SAITAN] [date] NULL,
+		[CYUZAN_SU] [numeric](7, 0) NULL,
+		[CYUZAN_ORDER] [varchar](12) NULL,
+		[CYUZAN_TOTAL] [numeric](9, 0) NULL,
+		[SINDO_1DAY] [numeric](4, 0) NULL,
+		[SINDO_2DAY] [numeric](4, 0) NULL,
+		[SINDO_3DAY] [numeric](4, 0) NULL,
+		[SINDO_4DAY] [numeric](4, 0) NULL,
+		[SINDO_5DAY] [numeric](4, 0) NULL,
+		[SINDO_6DAY] [numeric](4, 0) NULL,
+		[SINDO_7DAY] [numeric](4, 0) NULL,
+		[SINDO_8DAY] [numeric](4, 0) NULL,
+		[SINDO_9DAY] [numeric](4, 0) NULL,
+		[SINDO_10DAY] [numeric](4, 0) NULL,
+		[SINDO_11DAY] [numeric](4, 0) NULL,
+		[SINDO_12DAY] [numeric](4, 0) NULL,
+		[SINDO_13DAY] [numeric](4, 0) NULL,
+		[SINDO_14DAY] [numeric](4, 0) NULL,
+		[SINDO_15DAY] [numeric](4, 0) NULL,
+		[SINDO_16DAY] [numeric](4, 0) NULL,
+		[SINDO_17DAY] [numeric](4, 0) NULL,
+		[SINDO_18DAY] [numeric](4, 0) NULL,
+		[SINDO_19DAY] [numeric](4, 0) NULL,
+		[SINDO_20DAY] [numeric](4, 0) NULL,
+		[SINDO_21DAY] [numeric](4, 0) NULL,
+		[SINDO_22DAY] [numeric](4, 0) NULL,
+		[SINDO_23DAY] [numeric](4, 0) NULL,
+		[SINDO_24DAY] [numeric](4, 0) NULL,
+		[SINDO_25DAY] [numeric](4, 0) NULL,
+		[SINDO_26DAY] [numeric](4, 0) NULL,
+		[SINDO_27DAY] [numeric](4, 0) NULL,
+		[SINDO_28DAY] [numeric](4, 0) NULL,
+		[SINDO_29DAY] [numeric](4, 0) NULL,
+		[SINDO_30DAY] [numeric](4, 0) NULL,
+		[SINDO_31DAY] [numeric](4, 0) NULL,
+		[SINDO_TOTAL] [numeric](6, 0) NULL,
+		[KABUSOKU_1DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_2DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_3DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_4DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_5DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_6DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_7DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_8DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_9DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_10DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_11DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_12DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_13DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_14DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_15DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_16DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_17DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_18DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_19DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_20DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_21DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_22DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_23DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_24DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_25DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_26DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_27DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_28DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_29DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_30DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_31DAY] [numeric](7, 0) NULL,
+		[KABUSOKU_TOTAL] [numeric](9, 0) NULL,
+		[INSERT_USER] [varchar](50) NULL,
+		[INSERT_DTM] [datetime] NULL,
+		[INSERT_FUNCTION] [varchar](50) NULL,
+		[UPDATE_USER] [varchar](50) NULL,
+		[UPDATE_DTM] [datetime] NULL,
+		[UPDATE_FUNCTION] [varchar](50) NULL,
+	 CONSTRAINT [PK_T_KEPPIN] PRIMARY KEY CLUSTERED 
+	(
+		[NOHINSAKI] ASC,
+		[TORI_CD] ASC,
+		[BUHIN_CD] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY];
+
+	DECLARE CursorSindo CURSOR FOR
+
+    SELECT 
+      [納品先]
+    , [取引先コード]
+    , [部品コード]
+    , [年月]
+    , [当 01日],    [当 02日],    [当 03日],    [当 04日],    [当 05日]
+    , [当 06日],    [当 07日],    [当 08日],    [当 09日],    [当 10日]
+    , [当 11日],    [当 12日],    [当 13日],    [当 14日],    [当 15日]
+    , [当 16日],    [当 17日],    [当 18日],    [当 19日],    [当 20日]
+    , [当 21日],    [当 22日],    [当 23日],    [当 24日],    [当 25日]
+    , [当 26日],    [当 27日],    [当 28日],    [当 29日],    [当 30日]
+    , [当 31日]
+    , [翌 01日],    [翌 02日],    [翌 03日],    [翌 04日],    [翌 05日]
+    , [翌 06日],    [翌 07日],    [翌 08日],    [翌 09日],    [翌 10日]
+    , [翌 11日],    [翌 12日],    [翌 13日],    [翌 14日],    [翌 15日]
+    , [翌 16日],    [翌 17日],    [翌 18日],    [翌 19日],    [翌 20日]
+    , [翌 21日],    [翌 22日],    [翌 23日],    [翌 24日],    [翌 25日]
+    , [翌 26日],    [翌 27日],    [翌 28日],    [翌 29日],    [翌 30日]
+    , [翌 31日]
+    , [年月 01]
+    , [年月 02]
+    , [年月 03]
+    , [年月 04]
+    , [年月 05]
+    , [年月 06]
+    , [年月 07]
+    , [年月 08]
+    , [年月 09]
+    , [年月 10]
+    , [年月 11]
+    , [年月 12]
+    , [必要数 01]
+    , [必要数 02]
+    , [必要数 03]
+    , [必要数 04]
+    , [必要数 05]
+    , [必要数 06]
+    , [必要数 07]
+    , [必要数 08]
+    , [必要数 09]
+    , [必要数 10]
+    , [必要数 11]
+    , [必要数 12]
+    , [当月受入数]
+    , [当月払出数]
+    , [前月末在庫数]
+    , [取引先名]
+    , [部品名]
+    , [棚番01]
+    , [棚番02]
+    , [棚番03]
+    , [取引先品番]
+    , [規格]
+    , [行先ｺｰﾄﾞ]
+    , [手番]
+    , CASE WHEN @dd >  1 THEN null ELSE [当 01日 不足累計] + [過去日付の進度計] END AS [当 01日 不足累計]
+    , CASE WHEN @dd >  2 THEN null ELSE [当 02日 不足累計] + [過去日付の進度計] END AS [当 02日 不足累計]
+    , CASE WHEN @dd >  3 THEN null ELSE [当 03日 不足累計] + [過去日付の進度計] END AS [当 03日 不足累計]
+    , CASE WHEN @dd >  4 THEN null ELSE [当 04日 不足累計] + [過去日付の進度計] END AS [当 04日 不足累計]
+    , CASE WHEN @dd >  5 THEN null ELSE [当 05日 不足累計] + [過去日付の進度計] END AS [当 05日 不足累計]
+    , CASE WHEN @dd >  6 THEN null ELSE [当 06日 不足累計] + [過去日付の進度計] END AS [当 06日 不足累計]
+    , CASE WHEN @dd >  7 THEN null ELSE [当 07日 不足累計] + [過去日付の進度計] END AS [当 07日 不足累計]
+    , CASE WHEN @dd >  8 THEN null ELSE [当 08日 不足累計] + [過去日付の進度計] END AS [当 08日 不足累計]
+    , CASE WHEN @dd >  9 THEN null ELSE [当 09日 不足累計] + [過去日付の進度計] END AS [当 09日 不足累計]
+    , CASE WHEN @dd > 10 THEN null ELSE [当 10日 不足累計] + [過去日付の進度計] END AS [当 10日 不足累計]
+    , CASE WHEN @dd > 11 THEN null ELSE [当 11日 不足累計] + [過去日付の進度計] END AS [当 11日 不足累計]
+    , CASE WHEN @dd > 12 THEN null ELSE [当 12日 不足累計] + [過去日付の進度計] END AS [当 12日 不足累計]
+    , CASE WHEN @dd > 13 THEN null ELSE [当 13日 不足累計] + [過去日付の進度計] END AS [当 13日 不足累計]
+    , CASE WHEN @dd > 14 THEN null ELSE [当 14日 不足累計] + [過去日付の進度計] END AS [当 14日 不足累計]
+    , CASE WHEN @dd > 15 THEN null ELSE [当 15日 不足累計] + [過去日付の進度計] END AS [当 15日 不足累計]
+    , CASE WHEN @dd > 16 THEN null ELSE [当 16日 不足累計] + [過去日付の進度計] END AS [当 16日 不足累計]
+    , CASE WHEN @dd > 17 THEN null ELSE [当 17日 不足累計] + [過去日付の進度計] END AS [当 17日 不足累計]
+    , CASE WHEN @dd > 18 THEN null ELSE [当 18日 不足累計] + [過去日付の進度計] END AS [当 18日 不足累計]
+    , CASE WHEN @dd > 19 THEN null ELSE [当 19日 不足累計] + [過去日付の進度計] END AS [当 19日 不足累計]
+    , CASE WHEN @dd > 20 THEN null ELSE [当 20日 不足累計] + [過去日付の進度計] END AS [当 20日 不足累計]
+    , CASE WHEN @dd > 21 THEN null ELSE [当 21日 不足累計] + [過去日付の進度計] END AS [当 21日 不足累計]
+    , CASE WHEN @dd > 22 THEN null ELSE [当 22日 不足累計] + [過去日付の進度計] END AS [当 22日 不足累計]
+    , CASE WHEN @dd > 23 THEN null ELSE [当 23日 不足累計] + [過去日付の進度計] END AS [当 23日 不足累計]
+    , CASE WHEN @dd > 24 THEN null ELSE [当 24日 不足累計] + [過去日付の進度計] END AS [当 24日 不足累計]
+    , CASE WHEN @dd > 25 THEN null ELSE [当 25日 不足累計] + [過去日付の進度計] END AS [当 25日 不足累計]
+    , CASE WHEN @dd > 26 THEN null ELSE [当 26日 不足累計] + [過去日付の進度計] END AS [当 26日 不足累計]
+    , CASE WHEN @dd > 27 THEN null ELSE [当 27日 不足累計] + [過去日付の進度計] END AS [当 27日 不足累計]
+    , CASE WHEN @dd > 28 THEN null ELSE [当 28日 不足累計] + [過去日付の進度計] END AS [当 28日 不足累計]
+    , CASE WHEN @dd > 29 THEN null ELSE [当 29日 不足累計] + [過去日付の進度計] END AS [当 29日 不足累計]
+    , CASE WHEN @dd > 30 THEN null ELSE [当 30日 不足累計] + [過去日付の進度計] END AS [当 30日 不足累計]
+    , CASE WHEN @dd > 31 THEN null ELSE [当 31日 不足累計] + [過去日付の進度計] END AS [当 31日 不足累計]
+
+    FROM 
+    (
+        SELECT 
+                TB1.NOHINSAKI      AS [納品先]
+                , TB1.TORI_CD        AS [取引先コード]
+                , TB1.BUHIN_CD       AS [部品コード]
+                , TB1.YYYYMM         AS [年月]
+                , TB1.DAY1  AS [当 01日],    TB1.DAY2  AS [当 02日],    TB1.DAY3  AS [当 03日],    TB1.DAY4  AS [当 04日],    TB1.DAY5  AS [当 05日]
+                , TB1.DAY6  AS [当 06日],    TB1.DAY7  AS [当 07日],    TB1.DAY8  AS [当 08日],    TB1.DAY9  AS [当 09日],    TB1.DAY10 AS [当 10日]
+                , TB1.DAY11 AS [当 11日],    TB1.DAY12 AS [当 12日],    TB1.DAY13 AS [当 13日],    TB1.DAY14 AS [当 14日],    TB1.DAY15 AS [当 15日]
+                , TB1.DAY16 AS [当 16日],    TB1.DAY17 AS [当 17日],    TB1.DAY18 AS [当 18日],    TB1.DAY19 AS [当 19日],    TB1.DAY20 AS [当 20日]
+                , TB1.DAY21 AS [当 21日],    TB1.DAY22 AS [当 22日],    TB1.DAY23 AS [当 23日],    TB1.DAY24 AS [当 24日],    TB1.DAY25 AS [当 25日]
+                , TB1.DAY26 AS [当 26日],    TB1.DAY27 AS [当 27日],    TB1.DAY28 AS [当 28日],    TB1.DAY29 AS [当 29日],    TB1.DAY30 AS [当 30日]
+                , TB1.DAY31 AS [当 31日]
+                , ISNULL(TB2.DAY1 , 0) AS [翌 01日],    ISNULL(TB2.DAY2 , 0) AS [翌 02日],    ISNULL(TB2.DAY3 , 0) AS [翌 03日],    ISNULL(TB2.DAY4 , 0) AS [翌 04日],    ISNULL(TB2.DAY5 , 0) AS [翌 05日]
+                , ISNULL(TB2.DAY6 , 0) AS [翌 06日],    ISNULL(TB2.DAY7 , 0) AS [翌 07日],    ISNULL(TB2.DAY8 , 0) AS [翌 08日],    ISNULL(TB2.DAY9 , 0) AS [翌 09日],    ISNULL(TB2.DAY10, 0) AS [翌 10日]
+                , ISNULL(TB2.DAY11, 0) AS [翌 11日],    ISNULL(TB2.DAY12, 0) AS [翌 12日],    ISNULL(TB2.DAY13, 0) AS [翌 13日],    ISNULL(TB2.DAY14, 0) AS [翌 14日],    ISNULL(TB2.DAY15, 0) AS [翌 15日]
+                , ISNULL(TB2.DAY16, 0) AS [翌 16日],    ISNULL(TB2.DAY17, 0) AS [翌 17日],    ISNULL(TB2.DAY18, 0) AS [翌 18日],    ISNULL(TB2.DAY19, 0) AS [翌 19日],    ISNULL(TB2.DAY20, 0) AS [翌 20日]
+                , ISNULL(TB2.DAY21, 0) AS [翌 21日],    ISNULL(TB2.DAY22, 0) AS [翌 22日],    ISNULL(TB2.DAY23, 0) AS [翌 23日],    ISNULL(TB2.DAY24, 0) AS [翌 24日],    ISNULL(TB2.DAY25, 0) AS [翌 25日]
+                , ISNULL(TB2.DAY26, 0) AS [翌 26日],    ISNULL(TB2.DAY27, 0) AS [翌 27日],    ISNULL(TB2.DAY28, 0) AS [翌 28日],    ISNULL(TB2.DAY29, 0) AS [翌 29日],    ISNULL(TB2.DAY30, 0) AS [翌 30日]
+                , ISNULL(TB2.DAY31, 0) AS [翌 31日]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1, 0) AS [当 01日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2, 0) AS [当 02日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3, 0) AS [当 03日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4, 0) AS [当 04日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5, 0) AS [当 05日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6, 0) AS [当 06日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7, 0) AS [当 07日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8, 0) AS [当 08日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9, 0) AS [当 09日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10, 0) AS [当 10日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11, 0) AS [当 11日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12, 0) AS [当 12日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13, 0) AS [当 13日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14, 0) AS [当 14日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15, 0) AS [当 15日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16, 0) AS [当 16日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17, 0) AS [当 17日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18, 0) AS [当 18日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19, 0) AS [当 19日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20, 0) AS [当 20日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21, 0) AS [当 21日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22, 0) AS [当 22日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23, 0) AS [当 23日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24, 0) AS [当 24日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25, 0) AS [当 25日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26, 0) AS [当 26日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27, 0) AS [当 27日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27 + TB1.DAY28, 0) AS [当 28日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27 + TB1.DAY28 + TB1.DAY29, 0) AS [当 29日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27 + TB1.DAY28 + TB1.DAY29 + TB1.DAY30, 0) AS [当 30日 不足累計]
+                , ISNULL(TUJ.ZAIKO_SU, 0) + ISNULL(TUM.UKE_SU, 0) - ISNULL(TUM.HARAI_SU, 0) - ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27 + TB1.DAY28 + TB1.DAY29 + TB1.DAY30 + TB1.DAY31, 0) AS [当 31日 不足累計]
+                , CASE
+                    WHEN @dd =  1 THEN 0
+                    WHEN @dd =  2 THEN ISNULL(TB1.DAY1, 0)
+                    WHEN @dd =  3 THEN ISNULL(TB1.DAY1 + TB1.DAY2, 0)
+                    WHEN @dd =  4 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3, 0)
+                    WHEN @dd =  5 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4, 0)
+                    WHEN @dd =  6 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5, 0)
+                    WHEN @dd =  7 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6, 0)
+                    WHEN @dd =  8 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7, 0)
+                    WHEN @dd =  9 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8, 0)
+                    WHEN @dd = 10 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9, 0)
+                    WHEN @dd = 11 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10, 0)
+                    WHEN @dd = 12 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11, 0)
+                    WHEN @dd = 13 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12, 0)
+                    WHEN @dd = 14 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13, 0)
+                    WHEN @dd = 15 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14, 0)
+                    WHEN @dd = 16 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15, 0)
+                    WHEN @dd = 17 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16, 0)
+                    WHEN @dd = 18 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17, 0)
+                    WHEN @dd = 19 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18, 0)
+                    WHEN @dd = 20 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19, 0)
+                    WHEN @dd = 21 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20, 0)
+                    WHEN @dd = 22 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21, 0)
+                    WHEN @dd = 23 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22, 0)
+                    WHEN @dd = 24 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23, 0)
+                    WHEN @dd = 25 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24, 0)
+                    WHEN @dd = 26 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25, 0)
+                    WHEN @dd = 27 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26, 0)
+                    WHEN @dd = 28 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27, 0)
+                    WHEN @dd = 29 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27 + TB1.DAY28, 0)
+                    WHEN @dd = 30 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27 + TB1.DAY28 + TB1.DAY29, 0)
+                    WHEN @dd = 31 THEN ISNULL(TB1.DAY1 + TB1.DAY2 + TB1.DAY3 + TB1.DAY4 + TB1.DAY5 + TB1.DAY6 + TB1.DAY7 + TB1.DAY8 + TB1.DAY9 + TB1.DAY10 + TB1.DAY11 + TB1.DAY12 + TB1.DAY13 + TB1.DAY14 + TB1.DAY15 + TB1.DAY16 + TB1.DAY17 + TB1.DAY18 + TB1.DAY19 + TB1.DAY20 + TB1.DAY21 + TB1.DAY22 + TB1.DAY23 + TB1.DAY24 + TB1.DAY25 + TB1.DAY26 + TB1.DAY27 + TB1.DAY28 + TB1.DAY29 + TB1.DAY30, 0)
+                    ELSE 0
+                END AS [過去日付の進度計]
+                , TS.MON_YM1         AS [年月 01]
+                , TS.MON_YM2         AS [年月 02]
+                , TS.MON_YM3         AS [年月 03]
+                , TS.MON_YM4         AS [年月 04]
+                , TS.MON_YM5         AS [年月 05]
+                , TS.MON_YM6         AS [年月 06]
+                , TS.MON_YM7         AS [年月 07]
+                , TS.MON_YM8         AS [年月 08]
+                , TS.MON_YM9         AS [年月 09]
+                , TS.MON_YM10        AS [年月 10]
+                , TS.MON_YM11        AS [年月 11]
+                , TS.MON_YM12        AS [年月 12]
+                , TS.MON1            AS [必要数 01]
+                , TS.MON2            AS [必要数 02]
+                , TS.MON3            AS [必要数 03]
+                , TS.MON4            AS [必要数 04]
+                , TS.MON5            AS [必要数 05]
+                , TS.MON6            AS [必要数 06]
+                , TS.MON7            AS [必要数 07]
+                , TS.MON8            AS [必要数 08]
+                , TS.MON9            AS [必要数 09]
+                , TS.MON10           AS [必要数 10]
+                , TS.MON11           AS [必要数 11]
+                , TS.MON12           AS [必要数 12]
+                , ISNULL(TUM.UKE_SU, 0)         AS [当月受入数]
+                , ISNULL(TUM.HARAI_SU, 0)       AS [当月払出数]
+                , ISNULL(TUJ.ZAIKO_SU, 0)       AS [前月末在庫数]
+                , MT.TORI_NAME       AS [取引先名]
+                , MB.BUHIN_NAME      AS [部品名]
+                , MB.TANA_NO1        AS [棚番01]
+                , MB.TANA_NO2        AS [棚番02]
+                , MB.TANA_NO3        AS [棚番03]
+                , MB.TORIHIN_NO      AS [取引先品番]
+                , MB.KIKAKU          AS [規格]
+                , MB.IKISAKI_CD      AS [行先ｺｰﾄﾞ]
+                , MB.TEBAN           AS [手番]
+            FROM
+            (
+                -- 部品進度テーブル(当月分)
+                SELECT
+                    NOHINSAKI   AS NOHINSAKI
+                    , TORI_CD     AS TORI_CD
+                    , BUHIN_CD    AS BUHIN_CD
+                    , YYYYMM      AS YYYYMM
+                    , ISNULL(SUM([1DAY_NUMBER]), 0)  AS DAY1,  ISNULL(SUM([2DAY_NUMBER]), 0)   AS DAY2,  ISNULL(SUM([3DAY_NUMBER]), 0)  AS DAY3
+                    , ISNULL(SUM([4DAY_NUMBER]), 0)  AS DAY4,  ISNULL(SUM([5DAY_NUMBER]), 0)   AS DAY5,  ISNULL(SUM([6DAY_NUMBER]), 0)  AS DAY6
+                    , ISNULL(SUM([7DAY_NUMBER]), 0)  AS DAY7,  ISNULL(SUM([8DAY_NUMBER]), 0)   AS DAY8,  ISNULL(SUM([9DAY_NUMBER]), 0)  AS DAY9
+                    , ISNULL(SUM([10DAY_NUMBER]), 0) AS DAY10, ISNULL(SUM([11DAY_NUMBER]), 0)  AS DAY11, ISNULL(SUM([12DAY_NUMBER]), 0) AS DAY12
+                    , ISNULL(SUM([13DAY_NUMBER]), 0) AS DAY13, ISNULL(SUM([14DAY_NUMBER]), 0)  AS DAY14, ISNULL(SUM([15DAY_NUMBER]), 0) AS DAY15
+                    , ISNULL(SUM([16DAY_NUMBER]), 0) AS DAY16, ISNULL(SUM([17DAY_NUMBER]), 0)  AS DAY17, ISNULL(SUM([18DAY_NUMBER]), 0) AS DAY18
+                    , ISNULL(SUM([19DAY_NUMBER]), 0) AS DAY19, ISNULL(SUM([20DAY_NUMBER]), 0)  AS DAY20, ISNULL(SUM([21DAY_NUMBER]), 0) AS DAY21
+                    , ISNULL(SUM([22DAY_NUMBER]), 0) AS DAY22, ISNULL(SUM([23DAY_NUMBER]), 0)  AS DAY23, ISNULL(SUM([24DAY_NUMBER]), 0) AS DAY24
+                    , ISNULL(SUM([25DAY_NUMBER]), 0) AS DAY25, ISNULL(SUM([26DAY_NUMBER]), 0)  AS DAY26, ISNULL(SUM([27DAY_NUMBER]), 0) AS DAY27
+                    , ISNULL(SUM([28DAY_NUMBER]), 0) AS DAY28, ISNULL(SUM([29DAY_NUMBER]), 0)  AS DAY29, ISNULL(SUM([30DAY_NUMBER]), 0) AS DAY30
+                    , ISNULL(SUM([31DAY_NUMBER]), 0) AS DAY31
+                FROM [Ukeharai].[VIEW_BUHINSINDO]
+                WHERE PROCESS <> 'A20' AND PROCESS <> 'A80' AND PROCESS <> 'C80' AND YYYYMM = FORMAT(@sysday,'yyyyMM')
+                GROUP BY NOHINSAKI, TORI_CD, BUHIN_CD, YYYYMM
+            ) AS TB1
+
+            LEFT OUTER JOIN 
+            (
+                -- 部品進度テーブル(次月分)
+                SELECT
+                    NOHINSAKI   AS NOHINSAKI
+                    , TORI_CD     AS TORI_CD
+                    , BUHIN_CD    AS BUHIN_CD
+                    , YYYYMM      AS YYYYMM
+                    , ISNULL(SUM([1DAY_NUMBER]), 0)  AS DAY1,  ISNULL(SUM([2DAY_NUMBER]), 0)   AS DAY2,  ISNULL(SUM([3DAY_NUMBER]), 0)  AS DAY3
+                    , ISNULL(SUM([4DAY_NUMBER]), 0)  AS DAY4,  ISNULL(SUM([5DAY_NUMBER]), 0)   AS DAY5,  ISNULL(SUM([6DAY_NUMBER]), 0)  AS DAY6
+                    , ISNULL(SUM([7DAY_NUMBER]), 0)  AS DAY7,  ISNULL(SUM([8DAY_NUMBER]), 0)   AS DAY8,  ISNULL(SUM([9DAY_NUMBER]), 0)  AS DAY9
+                    , ISNULL(SUM([10DAY_NUMBER]), 0) AS DAY10, ISNULL(SUM([11DAY_NUMBER]), 0)  AS DAY11, ISNULL(SUM([12DAY_NUMBER]), 0) AS DAY12
+                    , ISNULL(SUM([13DAY_NUMBER]), 0) AS DAY13, ISNULL(SUM([14DAY_NUMBER]), 0)  AS DAY14, ISNULL(SUM([15DAY_NUMBER]), 0) AS DAY15
+                    , ISNULL(SUM([16DAY_NUMBER]), 0) AS DAY16, ISNULL(SUM([17DAY_NUMBER]), 0)  AS DAY17, ISNULL(SUM([18DAY_NUMBER]), 0) AS DAY18
+                    , ISNULL(SUM([19DAY_NUMBER]), 0) AS DAY19, ISNULL(SUM([20DAY_NUMBER]), 0)  AS DAY20, ISNULL(SUM([21DAY_NUMBER]), 0) AS DAY21
+                    , ISNULL(SUM([22DAY_NUMBER]), 0) AS DAY22, ISNULL(SUM([23DAY_NUMBER]), 0)  AS DAY23, ISNULL(SUM([24DAY_NUMBER]), 0) AS DAY24
+                    , ISNULL(SUM([25DAY_NUMBER]), 0) AS DAY25, ISNULL(SUM([26DAY_NUMBER]), 0)  AS DAY26, ISNULL(SUM([27DAY_NUMBER]), 0) AS DAY27
+                    , ISNULL(SUM([28DAY_NUMBER]), 0) AS DAY28, ISNULL(SUM([29DAY_NUMBER]), 0)  AS DAY29, ISNULL(SUM([30DAY_NUMBER]), 0) AS DAY30
+                    , ISNULL(SUM([31DAY_NUMBER]), 0) AS DAY31
+                FROM [Ukeharai].[VIEW_BUHINSINDO]
+                WHERE PROCESS <> 'A20' AND PROCESS <> 'A80' AND PROCESS <> 'C80' AND YYYYMM = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM')
+                GROUP BY NOHINSAKI, TORI_CD, BUHIN_CD, YYYYMM
+            ) AS TB2 ON TB1.NOHINSAKI = TB2.NOHINSAKI AND TB1.TORI_CD = TB2.TORI_CD AND TB1.BUHIN_CD = TB2.BUHIN_CD
+
+            INNER JOIN
+            (
+                -- 取引先マスタ
+                SELECT *
+                FROM [Ukeharai].[M_TORI]
+            ) AS MT ON TB1.TORI_CD=MT.TORI_CD
+
+            INNER JOIN
+            (
+                -- 部品マスタ
+                SELECT *
+                FROM [Ukeharai].[M_BUHIN]
+            ) AS  MB ON TB1.TORI_CD=MB.TORI_CD AND TB1.BUHIN_CD=MB.BUHIN_CD
+
+            LEFT OUTER JOIN 
+            (
+                -- 試算表テーブル
+                SELECT
+                    NOHINSAKI   AS NOHINSAKI
+                    , TORI_CD     AS TORI_CD
+                    , BUHIN_CD    AS BUHIN_CD
+                    , MAX([1MONTH_YYYYMM])  AS MON_YM1
+                    , MAX([2MONTH_YYYYMM])  AS MON_YM2
+                    , MAX([3MONTH_YYYYMM])  AS MON_YM3
+                    , MAX([4MONTH_YYYYMM])  AS MON_YM4
+                    , MAX([5MONTH_YYYYMM])  AS MON_YM5
+                    , MAX([6MONTH_YYYYMM])  AS MON_YM6
+                    , MAX([7MONTH_YYYYMM])  AS MON_YM7
+                    , MAX([8MONTH_YYYYMM])  AS MON_YM8
+                    , MAX([9MONTH_YYYYMM])  AS MON_YM9
+                    , MAX([10MONTH_YYYYMM]) AS MON_YM10
+                    , MAX([11MONTH_YYYYMM]) AS MON_YM11
+                    , MAX([12MONTH_YYYYMM]) AS MON_YM12
+                    , ISNULL(SUM([1MONTH_NUMBER]), 0)  AS MON1,  ISNULL(SUM([2MONTH_NUMBER]), 0)  AS MON2,  ISNULL(SUM([3MONTH_NUMBER]), 0)  AS MON3
+                    , ISNULL(SUM([4MONTH_NUMBER]), 0)  AS MON4,  ISNULL(SUM([5MONTH_NUMBER]), 0)  AS MON5,  ISNULL(SUM([6MONTH_NUMBER]), 0)  AS MON6
+                    , ISNULL(SUM([7MONTH_NUMBER]), 0)  AS MON7,  ISNULL(SUM([8MONTH_NUMBER]), 0)  AS MON8,  ISNULL(SUM([9MONTH_NUMBER]), 0)  AS MON9
+                    , ISNULL(SUM([10MONTH_NUMBER]), 0) AS MON10, ISNULL(SUM([11MONTH_NUMBER]), 0) AS MON11, ISNULL(SUM([12MONTH_NUMBER]), 0) AS MON12
+                FROM [Ukeharai].[VIEW_SISAN]
+                WHERE PROCESS <> 'A20' AND PROCESS <> 'A80' AND PROCESS <> 'C80' 
+                GROUP BY NOHINSAKI, TORI_CD, BUHIN_CD
+            ) AS TS ON TB1.NOHINSAKI = TS.NOHINSAKI AND TB1.TORI_CD = TS.TORI_CD AND TB1.BUHIN_CD = TS.BUHIN_CD
+
+            LEFT OUTER JOIN 
+            (
+                -- 受払明細テーブル
+                SELECT
+                    TORI_CD     AS TORI_CD
+                    , BUHIN_CD    AS BUHIN_CD
+                    , SUM( CASE WHEN UKEHARAI_KBN = '1' THEN KOSU  ELSE 0 END ) AS UKE_SU     --当月受入数
+                    , SUM( CASE WHEN UKEHARAI_KBN = '2' THEN KOSU  ELSE 0 END ) AS HARAI_SU   --当月払出数
+                FROM [Ukeharai].[T_UKEHARAIMEISAI]
+                WHERE UKEHARA_YYYYMMDD >= FORMAT(@sysday, 'yyyyMM01') 
+                GROUP BY TORI_CD, BUHIN_CD
+            ) AS TUM ON TB1.TORI_CD = TUM.TORI_CD AND TB1.BUHIN_CD = TUM.BUHIN_CD
+
+            LEFT OUTER JOIN 
+            (
+                -- 受払実績テーブル
+                SELECT
+                    TORI_CD     AS TORI_CD
+                    , BUHIN_CD    AS BUHIN_CD
+                    , MAX(ZAIKOSU) + SUM( UKESU - HARASU )  AS ZAIKO_SU     --前月末在庫
+                FROM [Ukeharai].[T_UKEHARAIJISSEKI]
+                WHERE UKEHARA_YYYYMM BETWEEN FORMAT(EOMONTH(@sysday,-1), 'yyyy0101') AND EOMONTH(@sysday,-1) 
+                GROUP BY TORI_CD, BUHIN_CD
+            ) AS TUJ ON TB1.TORI_CD = TUJ.TORI_CD AND TB1.BUHIN_CD = TUJ.BUHIN_CD
+    ) AS TBL
+    ORDER BY 納品先, 取引先コード, 部品コード;
+
+	OPEN CursorSindo;
+
+	FETCH NEXT FROM CursorSindo
+	INTO  @s_nohinsaki
+        , @s_tori_cd
+        , @s_buhin_cd
+        , @s_yyyymm
+        , @s_1day, @s_2day, @s_3day, @s_4day, @s_5day, @s_6day, @s_7day, @s_8day, @s_9day, @s_10day, @s_11day, @s_12day, @s_13day, @s_14day, @s_15day, @s_16day, @s_17day, @s_18day, @s_19day, @s_20day, @s_21day, @s_22day, @s_23day, @s_24day, @s_25day, @s_26day, @s_27day, @s_28day, @s_29day, @s_30day, @s_31day
+        , @s_next_1day, @s_next_2day, @s_next_3day, @s_next_4day, @s_next_5day, @s_next_6day, @s_next_7day, @s_next_8day, @s_next_9day, @s_next_10day, @s_next_11day, @s_next_12day, @s_next_13day, @s_next_14day, @s_next_15day, @s_next_16day, @s_next_17day, @s_next_18day, @s_next_19day, @s_next_20day, @s_next_21day, @s_next_22day, @s_next_23day, @s_next_24day, @s_next_25day, @s_next_26day, @s_next_27day, @s_next_28day, @s_next_29day, @s_next_30day, @s_next_31day
+        , @s_1month_ym, @s_2month_ym, @s_3month_ym, @s_4month_ym, @s_5month_ym, @s_6month_ym, @s_7month_ym, @s_8month_ym, @s_9month_ym, @s_10month_ym, @s_11month_ym, @s_12month_ym
+        , @s_1month, @s_2month, @s_3month, @s_4month, @s_5month, @s_6month, @s_7month, @s_8month, @s_9month, @s_10month, @s_11month, @s_12month
+        , @tum_uke_su
+        , @tum_harai_su
+        , @tuj_zaiko_su
+        , @tm_tori_name
+        , @bm_buhin_name
+        , @bm_tana_no1
+        , @bm_tana_no2
+        , @bm_tana_no3
+        , @bm_torihin_no
+        , @bm_kikaku
+        , @bm_ikisaki_cd
+        , @bm_teban
+        , @oth_1day, @oth_2day, @oth_3day, @oth_4day, @oth_5day, @oth_6day, @oth_7day, @oth_8day, @oth_9day, @oth_10day, @oth_11day, @oth_12day, @oth_13day, @oth_14day, @oth_15day, @oth_16day, @oth_17day, @oth_18day, @oth_19day, @oth_20day, @oth_21day, @oth_22day, @oth_23day, @oth_24day, @oth_25day, @oth_26day, @oth_27day, @oth_28day, @oth_29day, @oth_30day, @oth_31day
+
+
+	WHILE @@FETCH_STATUS = 0
+	BEGIN
+
+		-- ********************************
+		-- 翌月の不足数量を求める
+		-- ********************************
+		DECLARE @wk_next_1day numeric,  @wk_next_2day numeric,  @wk_next_3day numeric,  @wk_next_4day numeric,  @wk_next_5day numeric
+			  , @wk_next_6day numeric,  @wk_next_7day numeric,  @wk_next_8day numeric,  @wk_next_9day numeric,  @wk_next_10day numeric
+			  , @wk_next_11day numeric, @wk_next_12day numeric, @wk_next_13day numeric, @wk_next_14day numeric, @wk_next_15day numeric
+			  , @wk_next_16day numeric, @wk_next_17day numeric, @wk_next_18day numeric, @wk_next_19day numeric, @wk_next_20day numeric
+			  , @wk_next_21day numeric, @wk_next_22day numeric, @wk_next_23day numeric, @wk_next_24day numeric, @wk_next_25day numeric
+			  , @wk_next_26day numeric, @wk_next_27day numeric, @wk_next_28day numeric, @wk_next_29day numeric, @wk_next_30day numeric
+			  , @wk_next_31day numeric;
+
+        SET @wk_next_1day  = @oth_31day   - @s_next_1day;
+        SET @wk_next_2day  = @wk_next_1day - @s_next_2day;
+        SET @wk_next_3day  = @wk_next_2day - @s_next_3day;
+        SET @wk_next_4day  = @wk_next_3day - @s_next_4day;
+        SET @wk_next_5day  = @wk_next_4day - @s_next_5day;
+        SET @wk_next_6day  = @wk_next_5day - @s_next_6day;
+        SET @wk_next_7day  = @wk_next_6day - @s_next_7day;
+        SET @wk_next_8day  = @wk_next_7day - @s_next_8day;
+        SET @wk_next_9day  = @wk_next_8day - @s_next_9day;
+        SET @wk_next_10day = @wk_next_9day - @s_next_10day;
+        SET @wk_next_11day = @wk_next_10day - @s_next_11day;
+        SET @wk_next_12day = @wk_next_11day - @s_next_12day;
+        SET @wk_next_13day = @wk_next_12day - @s_next_13day;
+        SET @wk_next_14day = @wk_next_13day - @s_next_14day;
+        SET @wk_next_15day = @wk_next_14day - @s_next_15day;
+        SET @wk_next_16day = @wk_next_15day - @s_next_16day;
+        SET @wk_next_17day = @wk_next_16day - @s_next_17day;
+        SET @wk_next_18day = @wk_next_17day - @s_next_18day;
+        SET @wk_next_19day = @wk_next_18day - @s_next_19day;
+        SET @wk_next_20day = @wk_next_19day - @s_next_20day;
+        SET @wk_next_21day = @wk_next_20day - @s_next_21day;
+        SET @wk_next_22day = @wk_next_21day - @s_next_22day;
+        SET @wk_next_23day = @wk_next_22day - @s_next_23day;
+        SET @wk_next_24day = @wk_next_23day - @s_next_24day;
+        SET @wk_next_25day = @wk_next_24day - @s_next_25day;
+        SET @wk_next_26day = @wk_next_25day - @s_next_26day;
+        SET @wk_next_27day = @wk_next_26day - @s_next_27day;
+        SET @wk_next_28day = @wk_next_27day - @s_next_28day;
+        SET @wk_next_29day = @wk_next_28day - @s_next_29day;
+        SET @wk_next_30day = @wk_next_29day - @s_next_30day;
+        SET @wk_next_31day = @wk_next_30day - @s_next_31day;
+
+		-- 翌月末時点に不足が起こらないレコードは処理対象外
+		IF @wk_next_31day > 0
+			BEGIN
+            FETCH NEXT FROM CursorSindo
+            INTO  @s_nohinsaki
+                , @s_tori_cd
+                , @s_buhin_cd
+                , @s_yyyymm
+                , @s_1day, @s_2day, @s_3day, @s_4day, @s_5day, @s_6day, @s_7day, @s_8day, @s_9day, @s_10day, @s_11day, @s_12day, @s_13day, @s_14day, @s_15day, @s_16day, @s_17day, @s_18day, @s_19day, @s_20day, @s_21day, @s_22day, @s_23day, @s_24day, @s_25day, @s_26day, @s_27day, @s_28day, @s_29day, @s_30day, @s_31day
+                , @s_next_1day, @s_next_2day, @s_next_3day, @s_next_4day, @s_next_5day, @s_next_6day, @s_next_7day, @s_next_8day, @s_next_9day, @s_next_10day, @s_next_11day, @s_next_12day, @s_next_13day, @s_next_14day, @s_next_15day, @s_next_16day, @s_next_17day, @s_next_18day, @s_next_19day, @s_next_20day, @s_next_21day, @s_next_22day, @s_next_23day, @s_next_24day, @s_next_25day, @s_next_26day, @s_next_27day, @s_next_28day, @s_next_29day, @s_next_30day, @s_next_31day
+                , @s_1month_ym, @s_2month_ym, @s_3month_ym, @s_4month_ym, @s_5month_ym, @s_6month_ym, @s_7month_ym, @s_8month_ym, @s_9month_ym, @s_10month_ym, @s_11month_ym, @s_12month_ym
+                , @s_1month, @s_2month, @s_3month, @s_4month, @s_5month, @s_6month, @s_7month, @s_8month, @s_9month, @s_10month, @s_11month, @s_12month
+                , @tum_uke_su
+                , @tum_harai_su
+                , @tuj_zaiko_su
+                , @tm_tori_name
+                , @bm_buhin_name
+                , @bm_tana_no1
+                , @bm_tana_no2
+                , @bm_tana_no3
+                , @bm_torihin_no
+                , @bm_kikaku
+                , @bm_ikisaki_cd
+                , @bm_teban
+                , @oth_1day, @oth_2day, @oth_3day, @oth_4day, @oth_5day, @oth_6day, @oth_7day, @oth_8day, @oth_9day, @oth_10day, @oth_11day, @oth_12day, @oth_13day, @oth_14day, @oth_15day, @oth_16day, @oth_17day, @oth_18day, @oth_19day, @oth_20day, @oth_21day, @oth_22day, @oth_23day, @oth_24day, @oth_25day, @oth_26day, @oth_27day, @oth_28day, @oth_29day, @oth_30day, @oth_31day
+            CONTINUE;
+			END
+
+		-- ************************************
+		-- 欠品日を計算する
+		-- ************************************
+        DECLARE @wk_keppinbi date = null;
+
+        IF @oth_1day IS NOT null AND @oth_1day <= 0 
+            BEGIN
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM01');
+            END
+        ELSE IF @oth_2day IS NOT null AND @oth_2day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM02');
+        ELSE IF @oth_3day IS NOT null AND @oth_3day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM03');
+        ELSE IF @oth_4day IS NOT null AND @oth_4day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM04');
+        ELSE IF @oth_5day IS NOT null AND @oth_5day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM05');
+        ELSE IF @oth_6day IS NOT null AND @oth_6day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM06');
+        ELSE IF @oth_7day IS NOT null AND @oth_7day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM07');
+        ELSE IF @oth_8day IS NOT null AND @oth_8day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM08');
+        ELSE IF @oth_9day IS NOT null AND @oth_9day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM09');
+        ELSE IF @oth_10day IS NOT null AND @oth_10day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM10');
+        ELSE IF @oth_11day IS NOT null AND @oth_11day <= 0
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM11'); 
+        ELSE IF @oth_12day IS NOT null AND @oth_12day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM12');
+        ELSE IF @oth_13day IS NOT null AND @oth_13day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM13');
+        ELSE IF @oth_14day IS NOT null AND @oth_14day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM14');
+        ELSE IF @oth_15day IS NOT null AND @oth_15day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM15');
+        ELSE IF @oth_16day IS NOT null AND @oth_16day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM16');
+        ELSE IF @oth_17day IS NOT null AND @oth_17day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM17');
+        ELSE IF @oth_18day IS NOT null AND @oth_18day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM18');
+        ELSE IF @oth_19day IS NOT null AND @oth_19day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM19');
+        ELSE IF @oth_20day IS NOT null AND @oth_20day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM20');
+        ELSE IF @oth_21day IS NOT null AND @oth_21day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM21');
+        ELSE IF @oth_22day IS NOT null AND @oth_22day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM22');
+        ELSE IF @oth_23day IS NOT null AND @oth_23day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM23');
+        ELSE IF @oth_24day IS NOT null AND @oth_24day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM24');
+        ELSE IF @oth_25day IS NOT null AND @oth_25day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM25');
+        ELSE IF @oth_26day IS NOT null AND @oth_26day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM26');
+        ELSE IF @oth_27day IS NOT null AND @oth_27day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM27');
+        ELSE IF @oth_28day IS NOT null AND @oth_28day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM28');
+        ELSE IF @oth_29day IS NOT null AND @oth_29day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM29');
+        ELSE IF @oth_30day IS NOT null AND @oth_30day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM30');
+        ELSE IF @oth_31day IS NOT null AND @oth_31day <= 0 
+            SET @wk_keppinbi = FORMAT(@sysday, 'yyyyMM31');
+        ELSE IF @wk_next_1day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM01')
+        ELSE IF @wk_next_1day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM01')
+        ELSE IF @wk_next_2day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM02')
+        ELSE IF @wk_next_3day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM03')
+        ELSE IF @wk_next_4day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM04')
+        ELSE IF @wk_next_5day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM05')
+        ELSE IF @wk_next_6day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM06')
+        ELSE IF @wk_next_7day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM07')
+        ELSE IF @wk_next_8day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM08')
+        ELSE IF @wk_next_9day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM09')
+        ELSE IF @wk_next_10day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM10')
+        ELSE IF @wk_next_11day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM11')
+        ELSE IF @wk_next_12day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM12')
+        ELSE IF @wk_next_13day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM13')
+        ELSE IF @wk_next_14day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM14')
+        ELSE IF @wk_next_15day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM15')
+        ELSE IF @wk_next_16day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM16')
+        ELSE IF @wk_next_17day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM17')
+        ELSE IF @wk_next_18day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM18')
+        ELSE IF @wk_next_19day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM19')
+        ELSE IF @wk_next_20day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM20')
+        ELSE IF @wk_next_21day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM21')
+        ELSE IF @wk_next_22day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM22')
+        ELSE IF @wk_next_23day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM23')
+        ELSE IF @wk_next_24day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM24')
+        ELSE IF @wk_next_25day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM25')
+        ELSE IF @wk_next_26day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM26')
+        ELSE IF @wk_next_27day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM27')
+        ELSE IF @wk_next_28day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM28')
+        ELSE IF @wk_next_29day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM29')
+        ELSE IF @wk_next_30day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM30')
+        ELSE IF @wk_next_31day <= 0 
+            SET @wk_keppinbi = FORMAT(DATEADD(MM,1,@sysday),'yyyyMM31')
+
+
+		-- ************************************
+		-- 当月末の過不足データを計算する
+		-- ************************************
+        DECLARE @wk_kabusoku_total numeric(9,0) = 0;
+		SET @wk_kabusoku_total = ISNULL(@oth_1day, 0) + ISNULL(@oth_2day, 0) + ISNULL(@oth_3day, 0) + ISNULL(@oth_4day, 0) + ISNULL(@oth_5day, 0) + ISNULL(@oth_6day, 0) + ISNULL(@oth_7day, 0) + ISNULL(@oth_8day, 0) + ISNULL(@oth_9day, 0) + ISNULL(@oth_10day, 0)
+			+ ISNULL(@oth_11day, 0) + ISNULL(@oth_12day, 0) + ISNULL(@oth_13day, 0) + ISNULL(@oth_14day, 0) + ISNULL(@oth_15day, 0) + ISNULL(@oth_16day, 0) + ISNULL(@oth_17day, 0) + ISNULL(@oth_18day, 0) + ISNULL(@oth_19day, 0) + ISNULL(@oth_20day, 0)
+			+ ISNULL(@oth_21day, 0) + ISNULL(@oth_22day, 0) + ISNULL(@oth_23day, 0) + ISNULL(@oth_24day, 0) + ISNULL(@oth_25day, 0) + ISNULL(@oth_26day, 0) + ISNULL(@oth_27day, 0) + ISNULL(@oth_28day, 0) + ISNULL(@oth_29day, 0) + ISNULL(@oth_30day, 0)
+			+ ISNULL(@oth_31day, 0);
+
+
+		-- ************************************
+		-- 試算表から向こう３ヶ月の必要数を取得
+		-- ************************************
+		DECLARE @wk_Sisan_1st numeric = 0; --1st月試算数 
+		DECLARE @wk_Sisan_2nd numeric = 0; --2st月試算数 
+		DECLARE @wk_Sisan_3rd numeric = 0; --3st月試算数 
+        DECLARE @wk_current_month varchar(6);	-- 当月(YYYYMM)
+        SET @wk_current_month = SUBSTRING(CONVERT(NVARCHAR, @sysday, 112), 1, 6);
+
+        IF @wk_current_month = @s_1month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_1month;
+            SET @wk_Sisan_2nd =  @s_2month;
+            SET @wk_Sisan_3rd =  @s_3month;
+            END
+        ELSE IF @wk_current_month = @s_2month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_2month;
+            SET @wk_Sisan_2nd =  @s_3month;
+            SET @wk_Sisan_3rd =  @s_4month;
+            END
+        ELSE IF @wk_current_month = @s_3month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_3month;
+            SET @wk_Sisan_2nd =  @s_4month;
+            SET @wk_Sisan_3rd =  @s_5month;
+            END
+        ELSE IF @wk_current_month = @s_4month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_4month;
+            SET @wk_Sisan_2nd =  @s_5month;
+            SET @wk_Sisan_3rd =  @s_6month;
+            END
+        ELSE IF @wk_current_month = @s_5month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_5month;
+            SET @wk_Sisan_2nd =  @s_6month;
+            SET @wk_Sisan_3rd =  @s_7month;
+            END
+        ELSE IF @wk_current_month = @s_6month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_6month;
+            SET @wk_Sisan_2nd =  @s_7month;
+            SET @wk_Sisan_3rd =  @s_8month;
+            END
+        ELSE IF @wk_current_month = @s_7month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_7month;
+            SET @wk_Sisan_2nd =  @s_8month;
+            SET @wk_Sisan_3rd =  @s_9month;
+            END
+        ELSE IF @wk_current_month = @s_8month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_8month;
+            SET @wk_Sisan_2nd =  @s_9month;
+            SET @wk_Sisan_3rd =  @s_10month;
+            END
+        ELSE IF @wk_current_month = @s_9month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_9month;
+            SET @wk_Sisan_2nd =  @s_10month;
+            SET @wk_Sisan_3rd =  @s_11month;
+            END
+        ELSE IF @wk_current_month = @s_10month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_10month;
+            SET @wk_Sisan_2nd =  @s_11month;
+            SET @wk_Sisan_3rd =  @s_12month;
+            END
+        ELSE IF @wk_current_month = @s_11month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_11month;
+            SET @wk_Sisan_2nd =  @s_12month;
+            SET @wk_Sisan_3rd =  0;
+            END
+        ELSE IF @wk_current_month = @s_12month_ym
+            BEGIN
+            SET @wk_Sisan_1st =  @s_12month;
+            SET @wk_Sisan_2nd =  0;
+            SET @wk_Sisan_3rd =  0;
+            END
+
+		DECLARE @wk_1stkabusoku numeric = 0; --当月過不足
+        DECLARE @wk_2ndkabusoku numeric = 0; --翌月過不足 
+        DECLARE @wk_3rdkabusoku numeric = 0; --翌々月過不足 
+
+		SET @wk_1stkabusoku = @tuj_zaiko_su + @tum_uke_su - @wk_Sisan_1st;
+		SET @wk_2ndkabusoku = @wk_1stkabusoku - @wk_Sisan_2nd;
+		SET @wk_3rdkabusoku = @wk_2ndkabusoku - @wk_Sisan_3rd;
+
+
+		-- ************************************
+		-- 注残データを求める
+		-- ************************************
+		DECLARE CursorCyuzan CURSOR FOR
+			SELECT 
+			 	  ISNULL(CYUZAN_SU,0) AS CYUZAN_SU
+			    , ORDER_CD
+                , NOKI_YYYYMMDD
+			FROM
+                [Ukeharai].[VIEW_CYUZAN]
+			WHERE 
+                NOHINSAKI=@s_nohinsaki AND 
+                TORI_CD=@s_tori_cd AND 
+                BUHIN_CD=@s_buhin_cd AND
+                PROCESS <> 'A20' AND PROCESS <> 'A80' AND PROCESS <> 'C80' 
+			ORDER BY  HACYU_YYYYMMDD DESC, NOKI_YYYYMMDD DESC; --納期の降順　
+		OPEN CursorCyuzan;
+
+		DECLARE @tc_cyuzan_su numeric = 0
+        DECLARE @tc_order varchar(12);
+        DECLARE @tc_noki date;
+        DECLARE @wk_cyuzan_total numeric = 0;
+        DECLARE @wk_cyuzan_su numeric = 0;
+		DECLARE @wk_noki date = NULL;
+		DECLARE @wk_order varchar(12) = NULL;
+
+		FETCH NEXT FROM CursorCyuzan
+		INTO @tc_cyuzan_su, @tc_order, @tc_noki
+
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			-- 注残総数
+			SET @wk_cyuzan_total += @tc_cyuzan_su;
+            SET @wk_cyuzan_su = @tc_cyuzan_su;    --発注日、納期の降順にしたので最終行が目的(最短納期)のレコード
+			SET @wk_noki = @tc_noki;              --発注日、納期の降順にしたので最終行が目的(最短納期)のレコード
+			SET @wk_order = @tc_order;            --発注日、納期の降順にしたので最終行が目的(最短納期)のレコード
+
+			FETCH NEXT FROM CursorCyuzan
+			INTO @tc_cyuzan_su, @tc_order, @tc_noki;
+		END
+		CLOSE CursorCyuzan;
+		DEALLOCATE CursorCyuzan;
+
+		-- ***********************************************
+		-- 一時テーブル（欠品部品情報データ）を作成する
+		-- ***********************************************
+		INSERT INTO #tmp_keppin 
+		(
+            KAKUNIN, NOHINSAKI, LINE, FUSOKU_TOGETU, FUSOKU_JIGETU, CYUZAN, NOKI
+		  , TORI_CD, BUHIN_CD, TORI_NAME, BUHIN_NAME
+		  , TANA_NO1, TANA_NO2, TANA_NO3, TORIHIN_NO, KIKAKU, IKISAKI_CD, TEBAN
+		  , UKESU, HARASU, ZAIKO
+		  , SISAN_1ST, SISAN_2ND, SISAN_3RD, KABUSOKU_1ST, KABUSOKU_2ND, KABUSOKU_3RD
+		  , CYUZAN_SAITAN, CYUZAN_SU, CYUZAN_ORDER, CYUZAN_TOTAL
+		  , SINDO_1DAY, SINDO_2DAY, SINDO_3DAY, SINDO_4DAY, SINDO_5DAY, SINDO_6DAY, SINDO_7DAY, SINDO_8DAY, SINDO_9DAY, SINDO_10DAY
+		  , SINDO_11DAY, SINDO_12DAY, SINDO_13DAY, SINDO_14DAY, SINDO_15DAY, SINDO_16DAY, SINDO_17DAY, SINDO_18DAY, SINDO_19DAY, SINDO_20DAY
+		  , SINDO_21DAY, SINDO_22DAY, SINDO_23DAY, SINDO_24DAY, SINDO_25DAY, SINDO_26DAY, SINDO_27DAY, SINDO_28DAY, SINDO_29DAY, SINDO_30DAY
+		  , SINDO_31DAY
+          , SINDO_TOTAL
+		  , KABUSOKU_1DAY, KABUSOKU_2DAY, KABUSOKU_3DAY, KABUSOKU_4DAY, KABUSOKU_5DAY, KABUSOKU_6DAY, KABUSOKU_7DAY, KABUSOKU_8DAY, KABUSOKU_9DAY, KABUSOKU_10DAY
+		  , KABUSOKU_11DAY, KABUSOKU_12DAY, KABUSOKU_13DAY, KABUSOKU_14DAY, KABUSOKU_15DAY, KABUSOKU_16DAY, KABUSOKU_17DAY, KABUSOKU_18DAY, KABUSOKU_19DAY, KABUSOKU_20DAY
+		  , KABUSOKU_21DAY, KABUSOKU_22DAY, KABUSOKU_23DAY, KABUSOKU_24DAY, KABUSOKU_25DAY, KABUSOKU_26DAY, KABUSOKU_27DAY, KABUSOKU_28DAY, KABUSOKU_29DAY, KABUSOKU_30DAY
+		  , KABUSOKU_31DAY
+          , KABUSOKU_TOTAL
+		  , INSERT_USER
+          , INSERT_DTM
+          , INSERT_FUNCTION
+		)
+        VALUES 
+        (
+            '0'
+          , @s_nohinsaki　-- 納品先
+          , @wk_keppinbi　-- 欠品日
+          , @oth_31day　  -- 不足数量当月
+          , @wk_next_31day-- 不足数量次月
+          , @wk_cyuzan_total - @tum_uke_su -- 注残
+          , @wk_noki      --@ 納期
+          , @s_tori_cd
+          , @s_buhin_cd
+          , @tm_tori_name
+          , @bm_buhin_name
+          , @bm_tana_no1
+          , @bm_tana_no2
+          , @bm_tana_no3
+          , @bm_torihin_no
+          , @bm_kikaku
+          , @bm_ikisaki_cd   -- 行先コード
+          , @bm_teban        -- 手番
+          , @tum_uke_su      -- 当月受入数
+          , @tum_harai_su    -- 当月払出数
+          , @tuj_zaiko_su + @tum_uke_su - @tum_harai_su  -- 現時点の在庫数(前月末の在庫数＋当月の受入数－当月の払出数)
+          , @wk_Sisan_1st    -- 1st月試算数
+          , @wk_Sisan_2nd    -- 2nd月試算数
+          , @wk_Sisan_3rd    -- 3rd月試算数
+          , @wk_1stkabusoku  -- 1st月過不足
+          , @wk_2ndkabusoku  -- 2nd月過不足
+          , @wk_3rdkabusoku  -- 3rd月過不足
+          , @wk_noki         -- 最短納期
+          , @wk_cyuzan_su    -- 注残数
+          , @wk_order        -- オーダー
+          , @wk_cyuzan_total -- 注残総数
+          , @s_1day,  @s_2day,  @s_3day,  @s_4day,  @s_5day,  @s_6day,  @s_7day,  @s_8day,  @s_9day,  @s_10day
+          , @s_11day, @s_12day, @s_13day, @s_14day, @s_15day, @s_16day, @s_17day, @s_18day, @s_19day, @s_20day
+          , @s_21day, @s_22day, @s_23day, @s_24day, @s_25day, @s_26day, @s_27day, @s_28day, @s_29day, @s_30day
+          , @s_31day
+          , @s_1day + @s_2day + @s_3day + @s_4day + @s_5day + @s_6day + @s_7day + @s_8day + @s_9day + @s_10day + @s_11day + @s_12day + @s_13day + @s_14day + @s_15day + @s_16day + @s_17day + @s_18day + @s_19day + @s_20day + @s_21day + @s_22day + @s_23day + @s_24day + @s_25day + @s_26day + @s_27day + @s_28day + @s_29day + @s_30day + @s_31day
+          , @oth_1day,  @oth_2day,  @oth_3day,  @oth_4day,  @oth_5day,  @oth_6day,  @oth_7day,  @oth_8day,  @oth_9day,  @oth_10day
+          , @oth_11day, @oth_12day, @oth_13day, @oth_14day, @oth_15day, @oth_16day, @oth_17day, @oth_18day, @oth_19day, @oth_20day
+          , @oth_21day, @oth_22day, @oth_23day, @oth_24day, @oth_25day, @oth_26day, @oth_27day, @oth_28day, @oth_29day, @oth_30day
+          , @oth_31day
+          , @wk_kabusoku_total
+          , SYSTEM_USER
+          , GETDATE()
+          , 'Make_Keppin'
+        );
+
+        FETCH NEXT FROM CursorSindo
+        INTO  @s_nohinsaki
+            , @s_tori_cd
+            , @s_buhin_cd
+            , @s_yyyymm
+            , @s_1day, @s_2day, @s_3day, @s_4day, @s_5day, @s_6day, @s_7day, @s_8day, @s_9day, @s_10day, @s_11day, @s_12day, @s_13day, @s_14day, @s_15day, @s_16day, @s_17day, @s_18day, @s_19day, @s_20day, @s_21day, @s_22day, @s_23day, @s_24day, @s_25day, @s_26day, @s_27day, @s_28day, @s_29day, @s_30day, @s_31day
+            , @s_next_1day, @s_next_2day, @s_next_3day, @s_next_4day, @s_next_5day, @s_next_6day, @s_next_7day, @s_next_8day, @s_next_9day, @s_next_10day, @s_next_11day, @s_next_12day, @s_next_13day, @s_next_14day, @s_next_15day, @s_next_16day, @s_next_17day, @s_next_18day, @s_next_19day, @s_next_20day, @s_next_21day, @s_next_22day, @s_next_23day, @s_next_24day, @s_next_25day, @s_next_26day, @s_next_27day, @s_next_28day, @s_next_29day, @s_next_30day, @s_next_31day
+            , @s_1month_ym, @s_2month_ym, @s_3month_ym, @s_4month_ym, @s_5month_ym, @s_6month_ym, @s_7month_ym, @s_8month_ym, @s_9month_ym, @s_10month_ym, @s_11month_ym, @s_12month_ym
+            , @s_1month, @s_2month, @s_3month, @s_4month, @s_5month, @s_6month, @s_7month, @s_8month, @s_9month, @s_10month, @s_11month, @s_12month
+            , @tum_uke_su
+            , @tum_harai_su
+            , @tuj_zaiko_su
+            , @tm_tori_name
+            , @bm_buhin_name
+            , @bm_tana_no1
+            , @bm_tana_no2
+            , @bm_tana_no3
+            , @bm_torihin_no
+            , @bm_kikaku
+            , @bm_ikisaki_cd
+            , @bm_teban
+            , @oth_1day, @oth_2day, @oth_3day, @oth_4day, @oth_5day, @oth_6day, @oth_7day, @oth_8day, @oth_9day, @oth_10day, @oth_11day, @oth_12day, @oth_13day, @oth_14day, @oth_15day, @oth_16day, @oth_17day, @oth_18day, @oth_19day, @oth_20day, @oth_21day, @oth_22day, @oth_23day, @oth_24day, @oth_25day, @oth_26day, @oth_27day, @oth_28day, @oth_29day, @oth_30day, @oth_31day
+	END
+
+	CLOSE CursorSindo;
+	DEALLOCATE CursorSindo;
+
+	-- 作成した一時テーブルを欠品部品情報テーブルへ移行する
+	INSERT INTO [Ukeharai].[T_KEPPIN] SELECT * FROM #tmp_keppin;
+
+	-- 一時テーブルの解放
+	DROP TABLE #tmp_keppin;
+
+	RETURN 0;
+END

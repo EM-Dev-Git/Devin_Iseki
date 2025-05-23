@@ -1,0 +1,85 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Select_Month_Data]    Script Date: 2022/11/16 8:16:27 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Select_Month_Data]
+	@D_ExecYYYYMMDD				Date
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	-- 月初
+	DECLARE @D_FromYYYYMMDD				Date
+	-- 月末
+	DECLARE @D_ToYYYYMMDD				Date
+
+	-- 月初と月末を設定
+	SET @D_FromYYYYMMDD = DATEADD(DAY, 1, EOMONTH(@D_ExecYYYYMMDD, -1))
+	SET @D_ToYYYYMMDD = EOMONTH(@D_ExecYYYYMMDD)
+
+	SELECT J.TORI_CD						[取引先コード]
+			,J.BUHIN_CD						[部品コード]
+			,@D_FromYYYYMMDD				[月初]
+		    ,@D_ToYYYYMMDD					[月末]
+			,ISNULL(T_Month.U_Totale,0)		[受入数合計]
+			,ISNULL(T_Month.H_Totale,0)		[払出数合計]
+	FROM  Ukeharai.M_TORI [M_Tori]
+	LEFT JOIN
+		(
+			SELECT *
+			FROM Ukeharai.M_BUHIN
+		)[M_Buhin]
+		ON M_Tori.TORI_CD = M_Buhin.TORI_CD
+		AND M_Buhin.BUHIN_CD <> ''
+
+	INNER JOIN
+		(
+			SELECT Jisseki.TORI_CD
+				   ,Jisseki.BUHIN_CD
+				   ,Jisseki.ZAIKOSU
+				   ,Jisseki.INSERT_USER
+				   ,Jisseki.INSERT_DTM
+				   ,Jisseki.INSERT_FUNCTION
+			FROM Ukeharai.T_UKEHARAIJISSEKI [Jisseki]
+			WHERE Jisseki.UKEHARA_YYYYMM = @D_ExecYYYYMMDD
+		)[J]
+		ON M_Buhin.TORI_CD = J.TORI_CD
+		AND M_Buhin.BUHIN_CD = J.BUHIN_CD
+
+	LEFT JOIN	-- 当月の当日までの情報(N月)
+		(
+			SELECT M.TORI_CD
+					,M.BUHIN_CD
+					,SUM(M.U_KOSU)	[U_Totale]
+					,SUM(M.H_KOSU)	[H_Totale]
+			FROM
+			(
+				SELECT Meisai.TORI_CD
+						,Meisai.BUHIN_CD
+						,CASE Meisai.UKEHARAI_KBN
+							WHEN 1 THEN KOSU
+							ELSE		0
+						END [U_KOSU]
+						,CASE Meisai.UKEHARAI_KBN
+							WHEN 2 THEN KOSU
+							ELSE		0 
+						END [H_KOSU]
+				FROM Ukeharai.T_UKEHARAIMEISAI [Meisai]
+				WHERE Meisai.UKEHARA_YYYYMMDD BETWEEN @D_FromYYYYMMDD AND @D_ToYYYYMMDD
+			)[M]
+			GROUP BY M.TORI_CD,M.BUHIN_CD
+		)[T_Month]
+		ON M_Buhin.TORI_CD = T_Month.TORI_CD
+		AND M_Buhin.BUHIN_CD = T_Month.BUHIN_CD
+
+END

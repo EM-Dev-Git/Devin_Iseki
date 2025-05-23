@@ -1,0 +1,53 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Insert_Year_InitializeData]    Script Date: 2022/11/16 8:14:21 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Insert_Year_InitializeData]
+	-- Add the parameters for the stored procedure here
+	@ID_Tori			NVARCHAR(8),
+	@ID_Buhin			NVARCHAR(12),
+	@D_ExecYYYYMMDD		Date,
+	@I_LastYearKosu		numeric(7, 0),
+	@ID_User			NVARCHAR(50),
+	@D_UpdateTime		DateTime,
+	@ID_Func			NVARCHAR(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	-- 前年用
+	DECLARE @D_FirstMonth					  Date
+
+	-- 処理年から前年末を取得
+	SET @D_FirstMonth	 = FORMAT(@D_ExecYYYYMMDD, 'yyyy0101')
+
+    -- Insert statements for procedure here
+	INSERT INTO Ukeharai.T_UKEHARAIJISSEKI VALUES
+		(@ID_Tori, @ID_Buhin, @D_FirstMonth, @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 1, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 2, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 3, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 4, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 5, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 6, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 7, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 8, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 9, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 10, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+		,(@ID_Tori, @ID_Buhin, DATEADD(MONTH, 11, @D_FirstMonth), @I_LastYearKosu, 0, 0, @ID_User, @D_UpdateTime, @ID_Func, NULL,NULL,NULL)
+
+	RETURN @@ROWCOUNT
+
+END
+

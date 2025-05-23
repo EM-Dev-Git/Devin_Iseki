@@ -1,0 +1,36 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Update_Nengetu_Value]    Script Date: 2022/11/16 8:19:57 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Update_Nengetu_Value]
+	-- Add the parameters for the stored procedure here
+	@D_NengetuYMD		Date,
+	@ID_User			NVARCHAR(50),
+	@D_UpdateTime		DateTime,
+	@ID_Func			NVARCHAR(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE Ukeharai.T_HIZUKE
+		SET  NENGETSU			= DATEADD(MONTH, 1, NENGETSU)
+			,UPDATE_USER		= @ID_user
+			,UPDATE_DTM			= @D_UpdateTime
+			,UPDATE_FUNCTION	= @ID_Func
+
+	WHERE	NENGETSU = @D_NengetuYMD
+
+	RETURN @@ROWCOUNT
+END

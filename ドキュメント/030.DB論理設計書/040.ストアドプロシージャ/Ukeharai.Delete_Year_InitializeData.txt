@@ -1,0 +1,40 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Delete_Year_InitializeData]    Script Date: 2022/11/16 8:07:37 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Delete_Year_InitializeData]
+	-- Add the parameters for the stored procedure here
+	@ID_Tori			NVARCHAR(8),
+	@ID_Buhin			NVARCHAR(12),
+	@D_ExecYYYYMMDD		Date
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	-- 前年用
+	DECLARE @D_YearFrom						  Date
+	DECLARE @D_YearTo						  Date
+
+	-- 処理年から前年末を取得
+	SET @D_YearFrom  = FORMAT(@D_ExecYYYYMMDD, 'yyyy0101')
+	SET @D_YearTo	 = FORMAT(@D_ExecYYYYMMDD, 'yyyy1231')
+
+    -- Insert statements for procedure here
+	DELETE Ukeharai.T_UKEHARAIJISSEKI 
+	WHERE TORI_CD = @ID_Tori
+	  AND BUHIN_CD = @ID_Buhin
+	  AND UKEHARA_YYYYMM BETWEEN @D_YearFrom AND @D_YearTo
+
+	RETURN @@ROWCOUNT
+END

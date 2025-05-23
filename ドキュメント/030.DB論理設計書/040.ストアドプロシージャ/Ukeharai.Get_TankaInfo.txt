@@ -1,0 +1,34 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Get_TankaInfo]    Script Date: 2022/11/16 8:12:32 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Get_TankaInfo] 
+	-- Add the parameters for the stored procedure here
+	@ID_Tori			NVARCHAR(8),
+	@ID_Buhin			NVARCHAR(12),
+	@ID_Saki            NVARCHAR(2),
+	@AcceptYMD			Date
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM Ukeharai.M_TANKA [M_tanka]
+	WHERE M_tanka.TORI_CD = @ID_Tori
+	 AND  M_tanka.BUHIN_CD LIKE @ID_Buhin
+	 AND  M_tanka.SAKI_CD = @ID_Saki
+	 AND  @AcceptYMD BETWEEN M_tanka.YUKO_FM AND M_tanka.YUKO_TO
+END
+

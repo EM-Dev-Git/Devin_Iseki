@@ -1,0 +1,29 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Get_BuhinInfo]    Script Date: 2022/11/16 8:12:01 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Get_BuhinInfo] 
+	-- Add the parameters for the stored procedure here
+	@ID_Tori			NVARCHAR(8),
+	@ID_Buhin			NVARCHAR(12)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM Ukeharai.M_BUHIN [M_Buhin]
+	WHERE M_Buhin.TORI_CD = @ID_Tori
+	 AND  M_Buhin.BUHIN_CD LIKE @ID_Buhin
+END
