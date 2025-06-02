@@ -1,0 +1,114 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  UserDefinedFunction [Ukeharai].[Get_Zaikosu]    Script Date: 2022/10/25 14:55:51 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- =============================================
+-- Author:		<DIT>
+-- Create date: <2015/07/09>
+-- Description:	<在庫数算出関数>
+-- =============================================
+ALTER FUNCTION [Ukeharai].[Get_Zaikosu] (
+	@ToriCd			NVARCHAR(8),	--取引先コード
+	@BuhinCd		NVARCHAR(12),	--部品コード
+	@SyoriYYYYMMDD	NVARCHAR(10),	--計算日付
+	@chkFlg         BIT = 'true'	--計算フラグ
+)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @NumZaikoJisseki INT
+	DECLARE @NumZaikoMeisai  INT
+
+	-- 処理年月日
+	DECLARE @Date_SyoriYmd DATETIME
+	SET @Date_SyoriYmd=@SyoriYYYYMMDD
+
+	-- 処理年月日(月初)
+	DECLARE @Date_SyoriYmd_FirstDay DATETIME
+	SET @Date_SyoriYmd_FirstDay=DATEADD(DAY,1-DATEPART(DAY,@Date_SyoriYmd),@Date_SyoriYmd)
+
+	-- 処理年月日(前月の月初)
+	DECLARE @Date_SyoriYmd_BeforeMonth DATETIME
+	SET @Date_SyoriYmd_BeforeMonth=DATEADD(MONTH, -1, @Date_SyoriYmd_FirstDay)
+
+	-- 処理年月日(前月計算後の年始)
+	DECLARE @Date_SyoriYmd_FirstMonth DATETIME
+	SET @Date_SyoriYmd_FirstMonth=DATEADD(MONTH,1-DATEPART(MONTH,@Date_SyoriYmd_BeforeMonth),@Date_SyoriYmd_BeforeMonth)
+
+	SELECT
+		@NumZaikoJisseki = (MAX(ZAIKOSU) + SUM(UKESU) - SUM(HARASU))
+	FROM
+		Ukeharai.T_UKEHARAIJISSEKI
+	WHERE
+		TORI_CD = @ToriCd
+	AND BUHIN_CD = @BuhinCd
+	AND UKEHARA_YYYYMM >= @Date_SyoriYmd_FirstMonth
+	AND UKEHARA_YYYYMM <= @Date_SyoriYmd_BeforeMonth
+	GROUP BY
+		TORI_CD,
+		BUHIN_CD;
+
+	IF @chkFlg = 'true'
+      BEGIN
+		SELECT
+			@NumZaikoMeisai = SUM( CASE WHEN UKEHARAI_KBN = '1' THEN KOSU WHEN UKEHARAI_KBN = '2' THEN -KOSU  ELSE 0 END )
+		FROM
+			Ukeharai.T_UKEHARAIMEISAI
+		WHERE
+			TORI_CD = @ToriCd
+		AND BUHIN_CD = @BuhinCd
+		AND UKEHARA_YYYYMMDD >= @Date_SyoriYmd_FirstDay
+		AND UKEHARA_YYYYMMDD <= @Date_SyoriYmd
+		GROUP BY
+			TORI_CD,
+			BUHIN_CD;
+      END
+    ELSE
+      BEGIN
+		SELECT
+			@NumZaikoMeisai = SUM( CASE WHEN UKEHARAI_KBN = '1' THEN KOSU WHEN UKEHARAI_KBN = '2' THEN -KOSU  ELSE 0 END )
+		FROM
+			Ukeharai.T_UKEHARAIMEISAI
+		WHERE
+			TORI_CD = @ToriCd
+		AND BUHIN_CD = @BuhinCd
+		AND UKEHARA_YYYYMMDD >= @Date_SyoriYmd_FirstDay
+		AND UKEHARA_YYYYMMDD < @Date_SyoriYmd
+		GROUP BY
+			TORI_CD,
+			BUHIN_CD;
+      END
+  RETURN(ISNULL(@NumZaikoJisseki, 0) + ISNULL(@NumZaikoMeisai, 0))
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

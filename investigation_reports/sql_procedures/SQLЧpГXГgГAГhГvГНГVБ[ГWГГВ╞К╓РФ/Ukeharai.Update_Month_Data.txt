@@ -1,0 +1,149 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Update_Month_Data]    Script Date: 2022/11/16 8:19:04 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Update_Month_Data]
+	@S_ToriCd			NVARCHAR(8),
+	@D_ExecYYYYMMDD		Date,
+	@ID_User			NVARCHAR(50),
+	@D_UpdateTime		DateTime,
+	@ID_Func			NVARCHAR(50)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	-- 月初
+	DECLARE @D_FromYYYYMMDD				Date
+	-- 月末
+	DECLARE @D_ToYYYYMMDD				Date
+
+	-- 取引先コード
+	DECLARE @ID_Tori			NVARCHAR(8)
+	DECLARE @ID_Buhin			NVARCHAR(12)
+	DECLARE @S_Zaikosu			NVARCHAR(7)
+	DECLARE @S_Ukesu			NVARCHAR(7)
+	DECLARE @S_Harasu			NVARCHAR(7)
+	DECLARE @Inset_User			NVARCHAR(50)
+	DECLARE @S_Inset_DTM		NVARCHAR(50)
+	DECLARE @Inset_Function		NVARCHAR(50)
+	DECLARE @I_Zaikosu			numeric(7, 0)
+	DECLARE @I_Ukesu			numeric(7, 0)
+	DECLARE @I_Harasu			numeric(7, 0)
+	DECLARE @Inset_DTM			DATETIME
+
+	--DECLARE @S_DATE				NVARCHAR(50)
+
+	-- 月初と月末を設定
+	SET @D_FromYYYYMMDD = DATEADD(DAY, 1, EOMONTH(@D_ExecYYYYMMDD, -1))
+	SET @D_ToYYYYMMDD = EOMONTH(@D_ExecYYYYMMDD)
+
+	DECLARE cur1 CURSOR FOR
+	SELECT J.TORI_CD
+			,J.BUHIN_CD
+			,J.ZAIKOSU
+			,ISNULL(T_Month.U_Totale,0)
+			,ISNULL(T_Month.H_Totale,0)
+			,J.INSERT_USER
+			,CONVERT(datetime, J.INSERT_DTM,121)
+			,J.INSERT_FUNCTION
+	FROM  Ukeharai.M_TORI [M_Tori]
+	LEFT JOIN
+		(
+			SELECT *
+			FROM Ukeharai.M_BUHIN
+		)[M_Buhin]
+		ON M_Tori.TORI_CD = M_Buhin.TORI_CD
+		AND M_Buhin.BUHIN_CD <> ''
+
+	INNER JOIN
+		(
+			SELECT Jisseki.TORI_CD
+				   ,Jisseki.BUHIN_CD
+				   ,Jisseki.ZAIKOSU
+				   ,Jisseki.INSERT_USER
+				   ,Jisseki.INSERT_DTM
+				   ,Jisseki.INSERT_FUNCTION
+			FROM Ukeharai.T_UKEHARAIJISSEKI [Jisseki]
+			WHERE Jisseki.UKEHARA_YYYYMM = @D_ExecYYYYMMDD
+		)[J]
+		ON M_Buhin.TORI_CD = J.TORI_CD
+		AND M_Buhin.BUHIN_CD = J.BUHIN_CD
+
+	LEFT JOIN	-- 当月の当日までの情報(N月)
+		(
+			SELECT M.TORI_CD
+					,M.BUHIN_CD
+					,SUM(M.U_KOSU)	[U_Totale]
+					,SUM(M.H_KOSU)	[H_Totale]
+			FROM
+			(
+				SELECT Meisai.TORI_CD
+						,Meisai.BUHIN_CD
+						,CASE Meisai.UKEHARAI_KBN
+							WHEN 1 THEN KOSU
+							ELSE		0
+						END [U_KOSU]
+						,CASE Meisai.UKEHARAI_KBN
+							WHEN 2 THEN KOSU
+							ELSE		0 
+						END [H_KOSU]
+				FROM Ukeharai.T_UKEHARAIMEISAI [Meisai]
+				WHERE Meisai.UKEHARA_YYYYMMDD BETWEEN @D_FromYYYYMMDD AND @D_ToYYYYMMDD
+			)[M]
+			GROUP BY M.TORI_CD,M.BUHIN_CD
+		)[T_Month]
+		ON M_Buhin.TORI_CD = T_Month.TORI_CD
+		AND M_Buhin.BUHIN_CD = T_Month.BUHIN_CD
+
+	WHERE M_Tori.TORI_CD = @S_ToriCd
+
+	OPEN cur1
+	--FETCH（行の取り出し）
+	FETCH NEXT FROM cur1 INTO @ID_Tori,@ID_Buhin,@S_Zaikosu,@S_Ukesu,@S_Harasu,@Inset_User,@S_Inset_DTM,@Inset_Function
+
+	-- レコード削除
+	DELETE Ukeharai.T_UKEHARAIJISSEKI
+	WHERE EXISTS
+		(
+			SELECT Buhin.BUHIN_CD
+			FROM Ukeharai.M_BUHIN [Buhin]
+			WHERE Buhin.BUHIN_CD <> ''
+			AND T_UKEHARAIJISSEKI.BUHIN_CD = Buhin.BUHIN_CD
+			AND T_UKEHARAIJISSEKI.TORI_CD = @ID_Tori
+			AND T_UKEHARAIJISSEKI.UKEHARA_YYYYMM = @D_FromYYYYMMDD
+		) 
+	
+	--LOOP
+	WHILE (@@fetch_status = 0)
+	BEGIN
+		-- 文字列を型変換
+		SET @I_Zaikosu = CONVERT(numeric(7, 0), @S_Zaikosu)
+		SET @I_Ukesu = CONVERT(numeric(7, 0), @S_Ukesu)
+		SET @I_Harasu = CONVERT(numeric(7, 0), @S_Harasu)
+		SET @Inset_DTM = CONVERT(datetime, @S_Inset_DTM)
+
+		--変数リストの値を出力
+		--SET @S_DATE = CONVERT(NVARCHAR, @D_FromYYYYMMDD)
+		--PRINT @ID_Tori + ' ' + @ID_Buhin + ' ' + @S_DATE + ' ' + @S_Zaikosu + ' ' + @S_Ukesu + ' ' + @S_Harasu + ' ' + @Inset_User + ' ' + @S_Inset_DTM + ' ' + @Inset_Function
+
+		-- レコード追加
+		INSERT INTO Ukeharai.T_UKEHARAIJISSEKI VALUES
+		(@ID_Tori, @ID_Buhin, @D_FromYYYYMMDD, @I_Zaikosu, @I_Ukesu, @I_Harasu, @Inset_User, @Inset_DTM, @Inset_Function, @ID_User, @D_UpdateTime,@ID_Func)
+		
+		--FETCH（行の取り出し）
+		FETCH NEXT FROM cur1 INTO @ID_Tori,@ID_Buhin,@S_Zaikosu,@S_Ukesu,@S_Harasu,@Inset_User,@S_Inset_DTM,@Inset_Function
+	END
+ 
+	CLOSE cur1
+	DEALLOCATE cur1
+END

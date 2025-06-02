@@ -1,0 +1,75 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Select_Zaiko_Tyuzan]    Script Date: 2022/11/16 8:18:07 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Select_Zaiko_Tyuzan]
+	-- Add the parameters for the stored procedure here
+	@ID_Tori			NVARCHAR(8),
+	@ID_Buhin			NVARCHAR(12),
+	@S_SyuriYYYYMMDD	Date
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	DECLARE @S_YYYYMM						  NVARCHAR(7)
+
+	-- 処理年月
+	SET @S_YYYYMM	 = CONVERT(nvarchar, @S_SyuriYYYYMMDD, 112)
+	SET @S_YYYYMM	 = FORMAT(@S_SyuriYYYYMMDD, 'yyyy/MM')
+
+    -- Insert statements for procedure here
+	SELECT M_Tori.TORI_CD							[取引先コード]
+		  ,M_Tori.TORI_NAME							[取引先名]
+		  ,@S_YYYYMM								[対象年月]
+		  ,M_Buhin.TORIHIN_NO						[取引先品番]
+		  ,M_Buhin.BUHIN_CD							[部品コード]
+		  ,M_Buhin.BUHIN_NAME						[品名]
+		  ,M_Buhin.TANA_NO1							[棚番1]
+		  ,M_Buhin.TANA_NO2							[棚番2]
+		  ,M_Buhin.TANA_NO3							[棚番3]
+		  ,M_Buhin.KIKAKU							[規格]
+		  ,ISNULL(T_Jiseki.ZAIKOSU,0) + ISNULL(T_Jiseki.Total_UH,0)		[在庫]
+	FROM Ukeharai.M_TORI	[M_Tori]
+
+	LEFT JOIN	-- 取引先に対応する部品情報
+		(
+			SELECT *
+			FROM Ukeharai.M_BUHIN	[M_Buhin]
+		)[M_Buhin]
+		ON M_Buhin.TORI_CD = M_Tori.TORI_CD
+
+	LEFT JOIN	-- 前月末在庫情報(受払実績)
+		(
+			SELECT J.TORI_CD
+				   ,J.BUHIN_CD
+				   ,J.ZAIKOSU
+				   ,ISNULL(SUM(J.UKESU),0) - ISNULL(SUM(J.HARASU),0)	[Total_UH]
+			FROM 
+			(
+				SELECT Jisseki.TORI_CD
+					   ,Jisseki.BUHIN_CD
+					   ,Jisseki.ZAIKOSU
+					   ,Jisseki.UKESU
+					   ,Jisseki.HARASU
+				FROM Ukeharai.T_UKEHARAIJISSEKI	[Jisseki]
+				WHERE Jisseki.UKEHARA_YYYYMM BETWEEN FORMAT(EOMONTH(@S_SyuriYYYYMMDD,-1), 'yyyy0101') AND EOMONTH(@S_SyuriYYYYMMDD,-1)
+			)[J]
+			GROUP BY J.TORI_CD,J.BUHIN_CD,J.ZAIKOSU
+		)[T_Jiseki]
+		ON M_Buhin.TORI_CD = T_Jiseki.TORI_CD
+		AND M_Buhin.BUHIN_CD = T_Jiseki.BUHIN_CD
+
+	WHERE M_Tori.TORI_CD = @ID_Tori
+	AND   M_Buhin.BUHIN_CD = @ID_Buhin
+END

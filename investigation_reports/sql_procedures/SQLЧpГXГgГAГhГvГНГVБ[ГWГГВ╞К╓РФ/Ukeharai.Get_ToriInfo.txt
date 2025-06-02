@@ -1,0 +1,27 @@
+USE [UkeharaiDB_Matsuyama]
+GO
+/****** Object:  StoredProcedure [Ukeharai].[Get_ToriInfo]    Script Date: 2022/11/16 8:13:29 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [Ukeharai].[Get_ToriInfo]
+	-- Add the parameters for the stored procedure here
+	@ID_Tori			NVARCHAR(8)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT *
+	FROM Ukeharai.M_TORI [M_Tori]
+	WHERE M_Tori.TORI_CD = @ID_Tori
+END
